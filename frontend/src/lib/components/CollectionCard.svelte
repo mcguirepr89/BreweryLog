@@ -9,7 +9,7 @@
 	import ShareVariant from '~icons/mdi/share-variant';
 
 	import { goto } from '$app/navigation';
-	import type { Adventure, Collection } from '$lib/types';
+	import type { Brewery, Collection } from '$lib/types';
 	import { addToast } from '$lib/toasts';
 	import { t } from 'svelte-i18n';
 
@@ -23,10 +23,10 @@
 	const dispatch = createEventDispatcher();
 
 	export let type: String | undefined | null;
-	export let adventures: Adventure[] = [];
+	export let breweries: Brewery[] = [];
 	let isShareModalOpen: boolean = false;
 
-	function editAdventure() {
+	function editBrewery() {
 		dispatch('edit', collection);
 	}
 
@@ -41,9 +41,9 @@
 		});
 		if (res.ok) {
 			if (is_archived) {
-				addToast('info', $t('adventures.archived_collection_message'));
+				addToast('info', $t('breweries.archived_collection_message'));
 			} else {
-				addToast('info', $t('adventures.unarchived_collection_message'));
+				addToast('info', $t('breweries.unarchived_collection_message'));
 			}
 			dispatch('delete', collection.id);
 		} else {
@@ -61,7 +61,7 @@
 			}
 		});
 		if (res.ok) {
-			addToast('info', $t('adventures.delete_collection_success'));
+			addToast('info', $t('breweries.delete_collection_success'));
 			dispatch('delete', collection.id);
 		} else {
 			console.log('Error deleting collection');
@@ -73,9 +73,9 @@
 
 {#if isWarningModalOpen}
 	<DeleteWarning
-		title={$t('adventures.delete_collection')}
-		button_text={$t('adventures.delete')}
-		description={$t('adventures.delete_collection_warning')}
+		title={$t('breweries.delete_collection')}
+		button_text={$t('breweries.delete')}
+		description={$t('breweries.delete_collection_warning')}
 		is_warning={true}
 		on:close={() => (isWarningModalOpen = false)}
 		on:confirm={deleteCollection}
@@ -89,7 +89,7 @@
 <div
 	class="card min-w-max lg:w-96 md:w-80 sm:w-60 xs:w-40 bg-neutral text-neutral-content shadow-xl"
 >
-	<CardCarousel {adventures} />
+	<CardCarousel {breweries} />
 	<div class="card-body">
 		<div class="flex justify-between">
 			<button
@@ -101,23 +101,23 @@
 		</div>
 		<div class="inline-flex gap-2 mb-2">
 			<div class="badge badge-secondary">
-				{collection.is_public ? $t('adventures.public') : $t('adventures.private')}
+				{collection.is_public ? $t('breweries.public') : $t('breweries.private')}
 			</div>
 			{#if collection.is_archived}
-				<div class="badge badge-warning">{$t('adventures.archived')}</div>
+				<div class="badge badge-warning">{$t('breweries.archived')}</div>
 			{/if}
 		</div>
-		<p>{collection.adventures.length} {$t('navbar.adventures')}</p>
+		<p>{collection.breweries.length} {$t('navbar.breweries')}</p>
 		{#if collection.start_date && collection.end_date}
 			<p>
-				{$t('adventures.dates')}: {new Date(collection.start_date).toLocaleDateString(undefined, {
+				{$t('breweries.dates')}: {new Date(collection.start_date).toLocaleDateString(undefined, {
 					timeZone: 'UTC'
 				})} -
 				{new Date(collection.end_date).toLocaleDateString(undefined, { timeZone: 'UTC' })}
 			</p>
 			<!-- display the duration in days -->
 			<p>
-				{$t('adventures.duration')}: {Math.floor(
+				{$t('breweries.duration')}: {Math.floor(
 					(new Date(collection.end_date).getTime() - new Date(collection.start_date).getTime()) /
 						(1000 * 60 * 60 * 24)
 				) + 1}{' '}
@@ -143,38 +143,38 @@
 							<button
 								class="btn btn-neutral mb-2"
 								on:click={() => goto(`/collections/${collection.id}`)}
-								><Launch class="w-5 h-5 mr-1" />{$t('adventures.open_details')}</button
+								><Launch class="w-5 h-5 mr-1" />{$t('breweries.open_details')}</button
 							>
 							{#if !collection.is_archived}
-								<button class="btn btn-neutral mb-2" on:click={editAdventure}>
-									<FileDocumentEdit class="w-6 h-6" />{$t('adventures.edit_collection')}
+								<button class="btn btn-neutral mb-2" on:click={editBrewery}>
+									<FileDocumentEdit class="w-6 h-6" />{$t('breweries.edit_collection')}
 								</button>
 								<button class="btn btn-neutral mb-2" on:click={() => (isShareModalOpen = true)}>
-									<ShareVariant class="w-6 h-6" />{$t('adventures.share')}
+									<ShareVariant class="w-6 h-6" />{$t('breweries.share')}
 								</button>
 							{/if}
 							{#if collection.is_archived}
 								<button class="btn btn-neutral mb-2" on:click={() => archiveCollection(false)}>
-									<ArchiveArrowUp class="w-6 h-6 mr-1" />{$t('adventures.unarchive')}
+									<ArchiveArrowUp class="w-6 h-6 mr-1" />{$t('breweries.unarchive')}
 								</button>
 							{:else}
 								<button class="btn btn-neutral mb-2" on:click={() => archiveCollection(true)}>
-									<ArchiveArrowDown class="w-6 h-6 mr" />{$t('adventures.archive')}
+									<ArchiveArrowDown class="w-6 h-6 mr" />{$t('breweries.archive')}
 								</button>
 							{/if}
 							<button
-								id="delete_adventure"
-								data-umami-event="Delete Adventure"
+								id="delete_brewery"
+								data-umami-event="Delete Brewery"
 								class="btn btn-warning"
 								on:click={() => (isWarningModalOpen = true)}
-								><TrashCan class="w-6 h-6" />{$t('adventures.delete')}</button
+								><TrashCan class="w-6 h-6" />{$t('breweries.delete')}</button
 							>
 						{/if}
 						{#if type == 'viewonly'}
 							<button
 								class="btn btn-neutral mb-2"
 								on:click={() => goto(`/collections/${collection.id}`)}
-								><Launch class="w-5 h-5 mr-1" />{$t('adventures.open_details')}</button
+								><Launch class="w-5 h-5 mr-1" />{$t('breweries.open_details')}</button
 							>
 						{/if}
 					</ul>

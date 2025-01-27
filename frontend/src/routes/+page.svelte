@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
-	import AdventureOverlook from '$lib/assets/AdventureOverlook.webp';
+	import BreweryOverlook from '$lib/assets/BreweryOverlook.webp';
 	import MapWithPins from '$lib/assets/MapWithPins.webp';
 	import { t } from 'svelte-i18n';
 
@@ -41,7 +41,7 @@
 				</div>
 				<div class="flex flex-col gap-2 min-[400px]:flex-row">
 					{#if data.user}
-						<button on:click={() => goto('/adventures')} class="btn btn-primary">
+						<button on:click={() => goto('/breweries')} class="btn btn-primary">
 							{$t('home.go_to')}
 						</button>
 					{:else}
@@ -55,7 +55,7 @@
 				</div>
 			</div>
 			<img
-				src={AdventureOverlook}
+				src={BreweryOverlook}
 				width="550"
 				height="550"
 				alt="Hero"
@@ -129,9 +129,9 @@
 </section>
 
 <svelte:head>
-	<title>Home | AdventureLog</title>
+	<title>Home | BreweryLog</title>
 	<meta
 		name="description"
-		content="AdventureLog is a platform to log your adventures and plan your travel."
+		content="BreweryLog is a platform to log your breweries and plan your travel."
 	/>
 </svelte:head>

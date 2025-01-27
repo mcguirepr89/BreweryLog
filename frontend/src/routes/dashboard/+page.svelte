@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AdventureCard from '$lib/components/AdventureCard.svelte';
+	import BreweryCard from '$lib/components/BreweryCard.svelte';
 	import type { PageData } from './$types';
 	import { t } from 'svelte-i18n';
 
@@ -11,7 +11,7 @@
 	import MapMarkerStarOutline from '~icons/mdi/map-marker-star-outline';
 
 	const user = data.user;
-	const recentAdventures = data.props.adventures;
+	const recentBreweries = data.props.breweries;
 	const stats = data.props.stats;
 </script>
 
@@ -31,8 +31,8 @@
 			<div class="stat-figure text-secondary">
 				<Airplane class="w-10 h-10 inline-block" />
 			</div>
-			<div class="stat-title text-neutral-content">{$t('dashboard.total_adventures')}</div>
-			<div class="stat-value text-secondary">{stats.adventure_count}</div>
+			<div class="stat-title text-neutral-content">{$t('dashboard.total_breweries')}</div>
+			<div class="stat-value text-secondary">{stats.brewery_count}</div>
 		</div>
 		<div class="stat">
 			<div class="stat-figure text-primary">
@@ -57,31 +57,31 @@
 		</div>
 	</div>
 
-	<!-- Recent Adventures -->
-	{#if recentAdventures.length > 0}
-		<h2 class="text-3xl font-semibold mb-4">{$t('dashboard.recent_adventures')}</h2>
+	<!-- Recent Breweries -->
+	{#if recentBreweries.length > 0}
+		<h2 class="text-3xl font-semibold mb-4">{$t('dashboard.recent_breweries')}</h2>
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-			{#each recentAdventures as adventure}
-				<AdventureCard {adventure} user={data.user} readOnly />
+			{#each recentBreweries as brewery}
+				<BreweryCard {brewery} user={data.user} readOnly />
 			{/each}
 		</div>
 	{/if}
 
-	<!-- Inspiration if there are no recent adventures -->
-	{#if recentAdventures.length === 0}
+	<!-- Inspiration if there are no recent breweries -->
+	{#if recentBreweries.length === 0}
 		<div
 			class="flex flex-col items-center justify-center bg-neutral shadow p-8 mb-8 rounded-lg text-neutral-content"
 		>
-			<h2 class="text-3xl font-semibold mb-4">{$t('dashboard.no_recent_adventures')}</h2>
+			<h2 class="text-3xl font-semibold mb-4">{$t('dashboard.no_recent_breweries')}</h2>
 			<p class="text-lg text-center">
 				{$t('dashboard.add_some')}
 			</p>
-			<a href="/adventures" class="btn btn-primary mt-4">{$t('map.add_adventure')}</a>
+			<a href="/breweries" class="btn btn-primary mt-4">{$t('map.add_brewery')}</a>
 		</div>
 	{/if}
 </div>
 
 <svelte:head>
-	<title>Dashboard | AdventureLog</title>
-	<meta name="description" content="Home dashboard for AdventureLog." />
+	<title>Dashboard | BreweryLog</title>
+	<meta name="description" content="Home dashboard for BreweryLog." />
 </svelte:head>

@@ -140,12 +140,12 @@
 				<div class="collapse collapse-plus bg-base-200 mb-4">
 					<input type="checkbox" id="collapse-plus-1" checked />
 					<div class="collapse-title text-lg font-bold">
-						{$t('adventures.basic_information')}
+						{$t('breweries.basic_information')}
 					</div>
 					<div class="collapse-content">
 						<!-- Name Input -->
 						<div class="form-control mb-2">
-							<label for="name">{$t('adventures.name')}</label>
+							<label for="name">{$t('breweries.name')}</label>
 							<input
 								type="text"
 								id="name"
@@ -157,11 +157,11 @@
 
 						<!-- Date Input -->
 						<div class="form-control mb-2">
-							<label for="content">{$t('adventures.date')}</label>
+							<label for="content">{$t('breweries.date')}</label>
 							{#if collection && collection.start_date && collection.end_date && !isReadOnly}<label
 									class="label cursor-pointer flex items-start space-x-2"
 								>
-									<span class="label-text">{$t('adventures.date_constrain')}</span>
+									<span class="label-text">{$t('breweries.date_constrain')}</span>
 									<input
 										type="checkbox"
 										class="toggle toggle-primary"
@@ -202,7 +202,7 @@
 						<!-- Links Section -->
 						{#if !isReadOnly}
 							<div class="form-control mb-2">
-								<label for="content">{$t('adventures.links')}</label>
+								<label for="content">{$t('breweries.links')}</label>
 								<input
 									type="url"
 									class="input input-bordered w-full mb-1"
@@ -216,7 +216,7 @@
 									}}
 								/>
 								<button type="button" class="btn btn-sm btn-primary mt-1" on:click={addLink}>
-									{$t('adventures.add')}
+									{$t('breweries.add')}
 								</button>
 							</div>
 						{/if}
@@ -237,7 +237,7 @@
 												newNote.links = newNote.links.filter((_, index) => index !== i);
 											}}
 										>
-											{$t('adventures.remove')}
+											{$t('breweries.remove')}
 										</button>
 									</li>
 								{/each}

@@ -1,5 +1,5 @@
 {
-	"name": "adventurelog-frontend",
+	"name": "brewerylog-frontend",
 	"version": "0.8.0",
 	"scripts": {
 		"dev": "vite dev",

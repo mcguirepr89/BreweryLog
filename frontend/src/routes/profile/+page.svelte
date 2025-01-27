@@ -6,7 +6,7 @@
 		visited_country_count: number;
 		total_regions: number;
 		trips_count: number;
-		adventure_count: number;
+		brewery_count: number;
 		visited_region_count: number;
 		total_countries: number;
 		visited_city_count: number;
@@ -63,8 +63,8 @@
 		<div class="flex justify-center">
 			<div class="stats stats-vertical lg:stats-horizontal shadow bg-base-200">
 				<div class="stat">
-					<div class="stat-title">{$t('navbar.adventures')}</div>
-					<div class="stat-value text-center">{stats.adventure_count}</div>
+					<div class="stat-title">{$t('navbar.breweries')}</div>
+					<div class="stat-value text-center">{stats.brewery_count}</div>
 				</div>
 
 				<div class="stat">
@@ -107,6 +107,6 @@
 </section>
 
 <svelte:head>
-	<title>Profile | AdventureLog</title>
-	<meta name="description" content="{data.user.first_name}'s profile on AdventureLog." />
+	<title>Profile | BreweryLog</title>
+	<meta name="description" content="{data.user.first_name}'s profile on BreweryLog." />
 </svelte:head>

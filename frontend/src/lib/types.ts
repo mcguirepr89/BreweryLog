@@ -12,7 +12,7 @@ export type User = {
 	has_password: boolean;
 };
 
-export type Adventure = {
+export type Brewery = {
 	id: string;
 	user_id: string | null;
 	name: string;
@@ -106,7 +106,7 @@ export type Collection = {
 	name: string;
 	description: string;
 	is_public: boolean;
-	adventures: Adventure[];
+	breweries: Brewery[];
 	created_at?: string | null;
 	start_date: string | null;
 	end_date: string | null;
@@ -216,7 +216,7 @@ export type Category = {
 	display_name: string;
 	icon: string;
 	user_id: string;
-	num_adventures?: number | null;
+	num_breweries?: number | null;
 };
 
 export type ImmichIntegration = {

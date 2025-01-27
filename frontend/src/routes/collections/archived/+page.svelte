@@ -7,7 +7,7 @@
 	export let data: any;
 	console.log(data);
 
-	let collections: Collection[] = data.props.adventures || [];
+	let collections: Collection[] = data.props.breweries || [];
 
 	function deleteCollection(event: CustomEvent<string>) {
 		collections = collections.filter((collection) => collection.id !== event.detail);
@@ -17,7 +17,7 @@
 <div class="drawer lg:drawer-open">
 	<div class="drawer-content">
 		<!-- Page content -->
-		<h1 class="text-center font-bold text-4xl mb-6">{$t('adventures.archived_collections')}</h1>
+		<h1 class="text-center font-bold text-4xl mb-6">{$t('breweries.archived_collections')}</h1>
 		{#if collections.length === 0}
 			<NotFound error={undefined} />
 		{/if}
@@ -33,5 +33,5 @@
 
 <svelte:head>
 	<title>Collections</title>
-	<meta name="description" content="View your adventure collections." />
+	<meta name="description" content="View your brewery collections." />
 </svelte:head>

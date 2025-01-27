@@ -141,9 +141,9 @@
 			type="checkbox"
 			class="checkbox checkbox-bordered"
 			bind:checked={showMap}
-			aria-label={$t('adventures.show_map')}
+			aria-label={$t('breweries.show_map')}
 		/>
-		<span class="ml-2">{$t('adventures.show_map')}</span>
+		<span class="ml-2">{$t('breweries.show_map')}</span>
 	</div>
 </div> -->
 

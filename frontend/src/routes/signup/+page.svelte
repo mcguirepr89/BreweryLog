@@ -33,7 +33,7 @@
 	>
 		<div class="flex-1">
 			{#if !is_disabled}
-				<h3 class="text-center">AdventureLog</h3>
+				<h3 class="text-center">BreweryLog</h3>
 				<article class="text-center text-4xl mb-4 font-extrabold">
 					<h1>{$t('auth.signup')}</h1>
 				</article>
@@ -127,7 +127,7 @@
 
 <svelte:head>
 	<title>Signup</title>
-	<meta name="description" content="Signup for AdventureLog to explore the world!" />
+	<meta name="description" content="Signup for BreweryLog to explore the world!" />
 </svelte:head>
 
 <!-- <form method="post" use:enhance class="w-full max-w-xs">

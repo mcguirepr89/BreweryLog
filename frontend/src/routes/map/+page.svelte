@@ -1,8 +1,8 @@
 <script lang="ts">
-	import AdventureModal from '$lib/components/AdventureModal.svelte';
+	import BreweryModal from '$lib/components/BreweryModal.svelte';
 	import { DefaultMarker, MapEvents, MapLibre, Popup, Marker } from 'svelte-maplibre';
 	import { t } from 'svelte-i18n';
-	import type { Adventure, VisitedRegion } from '$lib/types.js';
+	import type { Brewery, VisitedRegion } from '$lib/types.js';
 	import CardCarousel from '$lib/components/CardCarousel.svelte';
 	import { goto } from '$app/navigation';
 	export let data;
@@ -11,18 +11,18 @@
 	let showGeo: boolean = false;
 
 	let visitedRegions: VisitedRegion[] = data.props.visitedRegions;
-	let adventures: Adventure[] = data.props.adventures;
+	let breweries: Brewery[] = data.props.breweries;
 
-	let filteredAdventures = adventures;
+	let filteredBreweries = breweries;
 
-	// Updates the filtered adventures based on the checkboxes
+	// Updates the filtered breweries based on the checkboxes
 	$: {
-		filteredAdventures = adventures.filter(
-			(adventure) => (showVisited && adventure.is_visited) || (showPlanned && !adventure.is_visited)
+		filteredBreweries = breweries.filter(
+			(brewery) => (showVisited && brewery.is_visited) || (showPlanned && !brewery.is_visited)
 		);
 	}
 
-	// Reset the longitude and latitude when the newMarker is set to null so new adventures are not created at the wrong location
+	// Reset the longitude and latitude when the newMarker is set to null so new breweries are not created at the wrong location
 	$: {
 		if (!newMarker) {
 			newLongitude = null;
@@ -49,8 +49,8 @@
 		newLatitude = e.detail.lngLat.lat;
 	}
 
-	function createNewAdventure(event: CustomEvent) {
-		adventures = [...adventures, event.detail];
+	function createNewBrewery(event: CustomEvent) {
+		breweries = [...breweries, event.detail];
 		newMarker = null;
 		createModalOpen = false;
 	}
@@ -62,18 +62,18 @@
 	}
 </script>
 
-<h1 class="text-center font-bold text-4xl">{$t('map.adventure_map')}</h1>
+<h1 class="text-center font-bold text-4xl">{$t('map.brewery_map')}</h1>
 
 <div class="m-2 flex flex-col items-center justify-center">
 	<div class="gap-4 border-solid border-2 rounded-lg p-2 mb-4 border-neutral max-w-4xl">
 		<p class="font-semibold text-center text-xl mb-2">{$t('map.map_options')}</p>
 		<div class="flex flex-wrap items-center justify-center gap-4">
 			<label class="label cursor-pointer">
-				<span class="label-text mr-1">{$t('adventures.visited')}</span>
+				<span class="label-text mr-1">{$t('breweries.visited')}</span>
 				<input type="checkbox" bind:checked={showVisited} class="checkbox checkbox-primary" />
 			</label>
 			<label class="label cursor-pointer">
-				<span class="label-text mr-1">{$t('adventures.planned')}</span>
+				<span class="label-text mr-1">{$t('breweries.planned')}</span>
 				<input type="checkbox" bind:checked={showPlanned} class="checkbox checkbox-primary" />
 			</label>
 			<label for="show-geo">{$t('map.show_visited_regions')}</label>
@@ -87,14 +87,14 @@
 			<div class="divider divider-horizontal"></div>
 			{#if newMarker}
 				<button type="button" class="btn btn-primary mb-2" on:click={() => (createModalOpen = true)}
-					>{$t('map.add_adventure_at_marker')}</button
+					>{$t('map.add_brewery_at_marker')}</button
 				>
 				<button type="button" class="btn btn-neutral mb-2" on:click={() => (newMarker = null)}
 					>{$t('map.clear_marker')}</button
 				>
 			{:else}
 				<button type="button" class="btn btn-primary mb-2" on:click={() => (createModalOpen = true)}
-					>{$t('map.add_adventure')}</button
+					>{$t('map.add_brewery')}</button
 				>
 			{/if}
 		</div>
@@ -102,9 +102,9 @@
 </div>
 
 {#if createModalOpen}
-	<AdventureModal
+	<BreweryModal
 		on:close={() => (createModalOpen = false)}
-		on:save={createNewAdventure}
+		on:save={createNewBrewery}
 		latitude={newLatitude}
 		longitude={newLongitude}
 	/>
@@ -115,33 +115,33 @@
 	class="relative aspect-[9/16] max-h-[70vh] w-full sm:aspect-video sm:max-h-full"
 	standardControls
 >
-	{#each filteredAdventures as adventure}
-		{#if adventure.latitude && adventure.longitude}
+	{#each filteredBreweries as brewery}
+		{#if brewery.latitude && brewery.longitude}
 			<Marker
-				lngLat={[adventure.longitude, adventure.latitude]}
-				class="grid h-8 w-8 place-items-center rounded-full border border-gray-200 {adventure.is_visited
+				lngLat={[brewery.longitude, brewery.latitude]}
+				class="grid h-8 w-8 place-items-center rounded-full border border-gray-200 {brewery.is_visited
 					? 'bg-red-300'
 					: 'bg-blue-300'} text-black focus:outline-6 focus:outline-black"
 				on:click={togglePopup}
 			>
 				<span class="text-xl">
-					{adventure.category?.icon}
+					{brewery.category?.icon}
 				</span>
 				{#if isPopupOpen}
 					<Popup openOn="click" offset={[0, -10]} on:close={() => (isPopupOpen = false)}>
-						{#if adventure.images && adventure.images.length > 0}
-							<CardCarousel adventures={[adventure]} />
+						{#if brewery.images && brewery.images.length > 0}
+							<CardCarousel breweries={[brewery]} />
 						{/if}
-						<div class="text-lg text-black font-bold">{adventure.name}</div>
+						<div class="text-lg text-black font-bold">{brewery.name}</div>
 						<p class="font-semibold text-black text-md">
-							{adventure.is_visited ? $t('adventures.visited') : $t('adventures.planned')}
+							{brewery.is_visited ? $t('breweries.visited') : $t('breweries.planned')}
 						</p>
 						<p class="font-semibold text-black text-md">
-							{adventure.category?.display_name + ' ' + adventure.category?.icon}
+							{brewery.category?.display_name + ' ' + brewery.category?.icon}
 						</p>
-						{#if adventure.visits && adventure.visits.length > 0}
+						{#if brewery.visits && brewery.visits.length > 0}
 							<p class="text-black text-sm">
-								{#each adventure.visits as visit}
+								{#each brewery.visits as visit}
 									{visit.start_date
 										? new Date(visit.start_date).toLocaleDateString(undefined, {
 												timeZone: 'UTC'
@@ -159,7 +159,7 @@
 						{/if}
 						<button
 							class="btn btn-neutral btn-wide btn-sm mt-4"
-							on:click={() => goto(`/adventures/${adventure.id}`)}>{$t('map.view_details')}</button
+							on:click={() => goto(`/breweries/${brewery.id}`)}>{$t('map.view_details')}</button
 						>
 					</Popup>
 				{/if}

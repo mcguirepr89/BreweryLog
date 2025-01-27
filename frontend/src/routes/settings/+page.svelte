@@ -64,10 +64,10 @@
 		if (res.ok) {
 			addToast(
 				'success',
-				`${data.new_regions} ${$t('adventures.regions_updated')}. ${data.new_cities} ${$t('adventures.cities_updated')}.`
+				`${data.new_regions} ${$t('breweries.regions_updated')}. ${data.new_cities} ${$t('breweries.cities_updated')}.`
 			);
 		} else {
-			addToast('error', $t('adventures.error_updating_regions'));
+			addToast('error', $t('breweries.error_updating_regions'));
 		}
 	}
 
@@ -393,7 +393,7 @@
 							>
 						{/if}
 						<button class="btn btn-sm btn-warning" on:click={() => removeEmail(email)}
-							>{$t('adventures.remove')}</button
+							>{$t('breweries.remove')}</button
 						>
 					</div>
 				{/each}
@@ -479,7 +479,7 @@
 				<span
 					>{$t('settings.social_auth_desc_2')}
 					<a
-						href="https://adventurelog.app/docs/configuration/social_auth.html"
+						href="https://brewerylog.app/docs/configuration/social_auth.html"
 						class="link link-neutral"
 						target="_blank">{$t('settings.documentation_link')}</a
 					>.
@@ -504,7 +504,7 @@
 				{$t('immich.immich_desc')}
 				<a
 					class="link link-primary"
-					href="https://adventurelog.app/docs/configuration/immich_integration.html"
+					href="https://brewerylog.app/docs/configuration/immich_integration.html"
 					target="_blank">{$t('immich.documentation')}</a
 				>
 			</p>
@@ -574,10 +574,10 @@
 
 	<!-- Visited Region Check Section -->
 	<section class="text-center mt-8">
-		<h2 class="text-2xl font-semibold">{$t('adventures.visited_region_check')}</h2>
-		<p>{$t('adventures.visited_region_check_desc')}</p>
+		<h2 class="text-2xl font-semibold">{$t('breweries.visited_region_check')}</h2>
+		<p>{$t('breweries.visited_region_check_desc')}</p>
 		<button class="btn btn-neutral mt-4" on:click={checkVisitedRegions}
-			>{$t('adventures.update_visited_regions')}</button
+			>{$t('breweries.update_visited_regions')}</button
 		>
 	</section>
 
@@ -588,7 +588,7 @@
 </div>
 
 <svelte:head>
-	<title>User Settings | AdventureLog</title>
+	<title>User Settings | BreweryLog</title>
 	<meta
 		name="description"
 		content="Update your user account settings here. Change your username, first name, last name, and profile icon."

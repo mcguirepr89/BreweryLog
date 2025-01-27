@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Adventure, Collection } from '$lib/types';
+	import type { Brewery, Collection } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	import { onMount } from 'svelte';
@@ -22,7 +22,7 @@
 		collections = result as Collection[];
 
 		if (result.type === 'success' && result.data) {
-			collections = result.data.adventures as Collection[];
+			collections = result.data.breweries as Collection[];
 		}
 	});
 
@@ -45,13 +45,13 @@
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 	<div class="modal-box w-11/12 max-w-5xl" role="dialog" on:keydown={handleKeydown} tabindex="0">
-		<h1 class="text-center font-bold text-4xl mb-6">{$t('adventures.my_collections')}</h1>
+		<h1 class="text-center font-bold text-4xl mb-6">{$t('breweries.my_collections')}</h1>
 		<div class="flex flex-wrap gap-4 mr-4 justify-center content-center">
 			{#each collections as collection}
 				<CollectionCard {collection} type="link" on:link={link} />
 			{/each}
 			{#if collections.length === 0}
-				<p class="text-center text-lg">{$t('adventures.no_collections_found')}</p>
+				<p class="text-center text-lg">{$t('breweries.no_collections_found')}</p>
 			{/if}
 		</div>
 		<button class="btn btn-primary" on:click={close}>{$t('about.close')}</button>

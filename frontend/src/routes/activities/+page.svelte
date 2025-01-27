@@ -13,7 +13,7 @@
 	<thead>
 		<tr>
 			<th>{$t('navbar.tag')}</th>
-			<th>{$t('adventures.actions')}</th>
+			<th>{$t('breweries.actions')}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -24,7 +24,7 @@
 					<button
 						class="btn btn-sm btn-primary"
 						on:click={() => goto(`/search?query=${activity}&property=activity_types`)}
-						>{$t('adventures.see_adventures')}</button
+						>{$t('breweries.see_breweries')}</button
 					>
 				</td>
 			</tr>

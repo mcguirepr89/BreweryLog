@@ -54,9 +54,9 @@
 
 {#if isWarningModalOpen}
 	<DeleteWarning
-		title={$t('adventures.delete_checklist')}
+		title={$t('breweries.delete_checklist')}
 		button_text="Delete"
-		description={$t('adventures.checklist_delete_confirm')}
+		description={$t('breweries.checklist_delete_confirm')}
 		is_warning={false}
 		on:close={() => (isWarningModalOpen = false)}
 		on:confirm={deleteChecklist}
@@ -72,7 +72,7 @@
 				{checklist.name}
 			</h2>
 		</div>
-		<div class="badge badge-primary">{$t('adventures.checklist')}</div>
+		<div class="badge badge-primary">{$t('breweries.checklist')}</div>
 		{#if checklist.items.length > 0}
 			<p>
 				{checklist.items.length}
@@ -80,7 +80,7 @@
 			</p>
 		{/if}
 		{#if unlinked}
-			<div class="badge badge-error">{$t('adventures.out_of_range')}</div>
+			<div class="badge badge-error">{$t('breweries.out_of_range')}</div>
 		{/if}
 		{#if checklist.date && checklist.date !== ''}
 			<div class="inline-flex items-center">
@@ -94,7 +94,7 @@
 			</button>
 			{#if checklist.user_id == user?.uuid || (collection && user && collection.shared_with && collection.shared_with.includes(user.uuid))}
 				<button
-					id="delete_adventure"
+					id="delete_brewery"
 					data-umami-event="Delete Checklist"
 					class="btn btn-warning"
 					on:click={() => (isWarningModalOpen = true)}><TrashCan class="w-6 h-6" /></button

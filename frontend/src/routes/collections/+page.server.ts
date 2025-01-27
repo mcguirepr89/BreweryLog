@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 const PUBLIC_SERVER_URL = process.env['PUBLIC_SERVER_URL'];
-import type { Adventure, Collection } from '$lib/types';
+import type { Brewery, Collection } from '$lib/types';
 
 import type { Actions, RequestEvent } from '@sveltejs/kit';
 import { fetchCSRFToken } from '$lib/index.server';
@@ -16,7 +16,7 @@ export const load = (async (event) => {
 		let next = null;
 		let previous = null;
 		let count = 0;
-		let adventures: Adventure[] = [];
+		let breweries: Brewery[] = [];
 		let sessionId = event.cookies.get('sessionid');
 		let initialFetch = await fetch(`${serverEndpoint}/api/collections/?order_by=updated_at`, {
 			headers: {
@@ -25,20 +25,20 @@ export const load = (async (event) => {
 			credentials: 'include'
 		});
 		if (!initialFetch.ok) {
-			console.error('Failed to fetch visited adventures');
+			console.error('Failed to fetch visited breweries');
 			return redirect(302, '/login');
 		} else {
 			let res = await initialFetch.json();
-			let visited = res.results as Adventure[];
+			let visited = res.results as Brewery[];
 			next = res.next;
 			previous = res.previous;
 			count = res.count;
-			adventures = [...adventures, ...visited];
+			breweries = [...breweries, ...visited];
 		}
 
 		return {
 			props: {
-				adventures,
+				breweries,
 				next,
 				previous,
 				count
@@ -120,7 +120,7 @@ export const actions: Actions = {
 	edit: async (event) => {
 		const formData = await event.request.formData();
 
-		const collectionId = formData.get('adventureId') as string;
+		const collectionId = formData.get('breweryId') as string;
 		const name = formData.get('name') as string;
 		const description = formData.get('description') as string | null;
 		let is_public = formData.get('is_public') as string | null | boolean;
@@ -210,7 +210,7 @@ export const actions: Actions = {
 
 		console.log(order_direction, order_by);
 
-		let adventures: Adventure[] = [];
+		let breweries: Brewery[] = [];
 
 		if (!event.locals.user) {
 			return {
@@ -233,20 +233,20 @@ export const actions: Actions = {
 			}
 		);
 		if (!collectionsFetch.ok) {
-			console.error('Failed to fetch visited adventures');
+			console.error('Failed to fetch visited breweries');
 			return redirect(302, '/login');
 		} else {
 			let res = await collectionsFetch.json();
-			let visited = res.results as Adventure[];
+			let visited = res.results as Brewery[];
 			next = res.next;
 			previous = res.previous;
 			count = res.count;
-			adventures = [...adventures, ...visited];
+			breweries = [...breweries, ...visited];
 			console.log(next, previous, count);
 		}
 
 		return {
-			adventures,
+			breweries,
 			next,
 			previous,
 			count
@@ -272,10 +272,10 @@ export const actions: Actions = {
 			};
 		}
 
-		// Start with the provided URL or default to the filtered adventures endpoint
+		// Start with the provided URL or default to the filtered breweries endpoint
 		let url: string = next || previous || '/api/collections/';
 
-		// Extract the path starting from '/api/adventures'
+		// Extract the path starting from '/api/breweries'
 		const apiIndex = url.indexOf('/api/collections');
 		if (apiIndex !== -1) {
 			url = url.slice(apiIndex);
@@ -309,7 +309,7 @@ export const actions: Actions = {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
 			const data = await response.json();
-			let adventures = data.results as Adventure[];
+			let breweries = data.results as Brewery[];
 			let next = data.next;
 			let previous = data.previous;
 			let count = data.count;
@@ -317,7 +317,7 @@ export const actions: Actions = {
 			return {
 				status: 200,
 				body: {
-					adventures,
+					breweries,
 					next,
 					previous,
 					count,

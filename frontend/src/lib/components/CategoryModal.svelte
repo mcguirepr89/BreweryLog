@@ -86,10 +86,10 @@
 					>
 					{#if category.name != 'general'}
 						<button on:click={removeCategory(category)} class="btn btn-warning btn-sm"
-							>{$t('adventures.remove')}</button
+							>{$t('breweries.remove')}</button
 						>
 					{:else}
-						<button class="btn btn-warning btn-sm btn-disabled">{$t('adventures.remove')}</button>
+						<button class="btn btn-warning btn-sm btn-disabled">{$t('breweries.remove')}</button>
 					{/if}
 				</div>
 			</div>
@@ -103,7 +103,7 @@
 			<div class="flex flex-row space-x-2 form-control">
 				<input
 					type="text"
-					placeholder={$t('adventures.name')}
+					placeholder={$t('breweries.name')}
 					bind:value={category_to_edit.display_name}
 					class="input input-bordered w-full max-w-xs"
 				/>

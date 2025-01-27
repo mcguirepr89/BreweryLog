@@ -149,11 +149,11 @@
 				<div class="collapse collapse-plus bg-base-200 mb-4">
 					<input type="checkbox" id="collapse-plus-1" checked />
 					<div class="collapse-title text-lg font-bold">
-						{$t('adventures.basic_information')}
+						{$t('breweries.basic_information')}
 					</div>
 					<div class="collapse-content">
 						<div class="form-control mb-2">
-							<label for="name">{$t('adventures.name')}</label>
+							<label for="name">{$t('breweries.name')}</label>
 							<input
 								type="text"
 								id="name"
@@ -163,11 +163,11 @@
 							/>
 						</div>
 						<div class="form-control mb-2">
-							<label for="content">{$t('adventures.date')}</label>
+							<label for="content">{$t('breweries.date')}</label>
 							{#if collection && collection.start_date && collection.end_date && !isReadOnly}<label
 									class="label cursor-pointer flex items-start space-x-2"
 								>
-									<span class="label-text">{$t('adventures.date_constrain')}</span>
+									<span class="label-text">{$t('breweries.date_constrain')}</span>
 									<input
 										type="checkbox"
 										class="toggle toggle-primary"
@@ -219,7 +219,7 @@
 									class="btn btn-sm btn-primary absolute right-0 mt-2.5 mr-4"
 									on:click={addItem}
 								>
-									{$t('adventures.add')}
+									{$t('breweries.add')}
 								</button>
 							</div>
 						{/if}
@@ -249,7 +249,7 @@
 									on:click={() => removeItem(i)}
 									disabled={isReadOnly}
 								>
-									{$t('adventures.remove')}
+									{$t('breweries.remove')}
 								</button>
 							</div>
 						{/each}

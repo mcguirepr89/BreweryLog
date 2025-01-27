@@ -1,4 +1,4 @@
-import type { Adventure, OpenStreetMapPlace } from '$lib/types';
+import type { Brewery, OpenStreetMapPlace } from '$lib/types';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { appVersion } from '$lib/config';
@@ -17,7 +17,7 @@ export const load = (async (event) => {
 	let sessionId = event.cookies.get('sessionid');
 
 	let res = await fetch(
-		`${serverEndpoint}/api/adventures/search/?query=${query}&property=${property}`,
+		`${serverEndpoint}/api/breweries/search/?query=${query}&property=${property}`,
 		{
 			headers: {
 				'Content-Type': 'application/json',
@@ -32,11 +32,11 @@ export const load = (async (event) => {
 		return { error: error.error };
 	}
 
-	let adventures: Adventure[] = await res.json();
+	let breweries: Brewery[] = await res.json();
 
 	let osmRes = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=jsonv2`, {
 		headers: {
-			'User-Agent': `AdventureLog / ${appVersion} `
+			'User-Agent': `BreweryLog / ${appVersion} `
 		}
 	});
 
@@ -50,7 +50,7 @@ export const load = (async (event) => {
 
 	return {
 		props: {
-			adventures,
+			breweries,
 			query,
 			osmData
 		}

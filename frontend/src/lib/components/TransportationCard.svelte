@@ -88,9 +88,9 @@
 
 {#if isWarningModalOpen}
 	<DeleteWarning
-		title={$t('adventures.delete_transportation')}
+		title={$t('breweries.delete_transportation')}
 		button_text="Delete"
-		description={$t('adventures.transportation_delete_confirm')}
+		description={$t('breweries.transportation_delete_confirm')}
 		is_warning={false}
 		on:close={() => (isWarningModalOpen = false)}
 		on:confirm={deleteTransportation}
@@ -114,20 +114,20 @@
 			</div>
 		</div>
 		{#if unlinked}
-			<div class="badge badge-error">{$t('adventures.out_of_range')}</div>
+			<div class="badge badge-error">{$t('breweries.out_of_range')}</div>
 		{/if}
 
 		<!-- Locations -->
 		<div class="space-y-2">
 			{#if transportation.from_location}
 				<div class="flex items-center gap-2">
-					<span class="font-medium text-sm">{$t('adventures.from')}:</span>
+					<span class="font-medium text-sm">{$t('breweries.from')}:</span>
 					<p class="break-words">{transportation.from_location}</p>
 				</div>
 			{/if}
 			{#if transportation.date}
 				<div class="flex items-center gap-2">
-					<span class="font-medium text-sm">{$t('adventures.start')}:</span>
+					<span class="font-medium text-sm">{$t('breweries.start')}:</span>
 					<p>{new Date(transportation.date).toLocaleString(undefined, { timeZone: 'UTC' })}</p>
 				</div>
 			{/if}
@@ -138,14 +138,14 @@
 			{#if transportation.to_location}
 				<!-- <ArrowDownThick class="w-4 h-4" /> -->
 				<div class="flex items-center gap-2">
-					<span class="font-medium text-sm">{$t('adventures.to')}:</span>
+					<span class="font-medium text-sm">{$t('breweries.to')}:</span>
 
 					<p class="break-words">{transportation.to_location}</p>
 				</div>
 			{/if}
 			{#if transportation.end_date}
 				<div class="flex items-center gap-2">
-					<span class="font-medium text-sm">{$t('adventures.end')}:</span>
+					<span class="font-medium text-sm">{$t('breweries.end')}:</span>
 					<p>{new Date(transportation.end_date).toLocaleString(undefined, { timeZone: 'UTC' })}</p>
 				</div>
 			{/if}
@@ -168,7 +168,7 @@
 					title="Delete"
 				>
 					<TrashCanOutline class="w-5 h-5" />
-					<span>{$t('adventures.delete')}</span>
+					<span>{$t('breweries.delete')}</span>
 				</button>
 			</div>
 		{/if}

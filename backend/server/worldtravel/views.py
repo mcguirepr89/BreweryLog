@@ -13,7 +13,7 @@ from django.contrib.gis.geos import Point
 from django.conf import settings
 from rest_framework.decorators import action
 from django.contrib.staticfiles import finders
-from adventures.models import Adventure
+from breweries.models import Brewery
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -68,22 +68,22 @@ class CountryViewSet(viewsets.ReadOnlyModelViewSet):
         else:
             return Response({'in_region': False})
         
-    # make a post action that will get all of the users adventures and check if the point is in any of the regions if so make a visited region object for that user if it does not already exist
+    # make a post action that will get all of the users breweries and check if the point is in any of the regions if so make a visited region object for that user if it does not already exist
     @action(detail=False, methods=['post'])
-    def region_check_all_adventures(self, request):
-        adventures = Adventure.objects.filter(user_id=request.user.id, type='visited')
+    def region_check_all_breweries(self, request):
+        breweries = Brewery.objects.filter(user_id=request.user.id, type='visited')
         count = 0
-        for adventure in adventures:
-            if adventure.latitude is not None and adventure.longitude is not None:
+        for brewery in breweries:
+            if brewery.latitude is not None and brewery.longitude is not None:
                 try:
-                    point = Point(float(adventure.longitude), float(adventure.latitude), srid=4326)
+                    point = Point(float(brewery.longitude), float(brewery.latitude), srid=4326)
                     region = Region.objects.filter(geometry__contains=point).first()
                     if region:
                         if not VisitedRegion.objects.filter(user_id=request.user.id, region=region).exists():
                             VisitedRegion.objects.create(user_id=request.user, region=region)
                             count += 1
                 except Exception as e:
-                    print(f"Error processing adventure {adventure.id}: {e}")
+                    print(f"Error processing brewery {brewery.id}: {e}")
                     continue
         return Response({'regions_visited': count})
 

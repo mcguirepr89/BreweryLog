@@ -5,12 +5,12 @@
 
 	let types_arr: string[] = [];
 	export let types: string;
-	let adventure_types: Category[] = [];
+	let brewery_types: Category[] = [];
 
 	onMount(async () => {
 		let categoryFetch = await fetch('/api/categories/categories');
 		let categoryData = await categoryFetch.json();
-		adventure_types = categoryData;
+		brewery_types = categoryData;
 		console.log(categoryData);
 		types_arr = types.split(',');
 	});
@@ -38,13 +38,13 @@
 <div class="collapse collapse-plus mb-4">
 	<input type="checkbox" />
 	<div class="collapse-title text-xl bg-base-300 font-medium">
-		{$t('adventures.category_filter')}
+		{$t('breweries.category_filter')}
 	</div>
 	<div class="collapse-content bg-base-300">
 		<button class="btn btn-wide btn-neutral-300" on:click={clearTypes}
-			>{$t(`adventures.clear`)}</button
+			>{$t(`breweries.clear`)}</button
 		>
-		{#each adventure_types as type}
+		{#each brewery_types as type}
 			<li>
 				<label class="cursor-pointer">
 					<input
@@ -53,7 +53,7 @@
 						on:change={() => toggleSelect(type.name)}
 						checked={types.indexOf(type.name) > -1}
 					/>
-					<span>{type.display_name + ' ' + type.icon + ` (${type.num_adventures})`}</span>
+					<span>{type.display_name + ' ' + type.icon + ` (${type.num_breweries})`}</span>
 				</label>
 			</li>
 		{/each}

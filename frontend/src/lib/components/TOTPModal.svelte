@@ -43,7 +43,7 @@
 		const data = await res.json();
 		if (res.status == 404) {
 			secret = data.meta.secret;
-			totpUrl = `otpauth://totp/AdventureLog:${user?.username}?secret=${secret}&issuer=AdventureLog`;
+			totpUrl = `otpauth://totp/BreweryLog:${user?.username}?secret=${secret}&issuer=BreweryLog`;
 			generateQRCode(totpUrl);
 		} else if (res.ok) {
 			close();
@@ -103,10 +103,10 @@
 		if (copyText) {
 			navigator.clipboard.writeText(copyText).then(
 				() => {
-					addToast('success', $t('adventures.copied_to_clipboard'));
+					addToast('success', $t('breweries.copied_to_clipboard'));
 				},
 				() => {
-					addToast('error', $t('adventures.copy_failed'));
+					addToast('error', $t('breweries.copy_failed'));
 				}
 			);
 		}

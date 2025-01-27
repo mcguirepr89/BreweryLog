@@ -19,7 +19,7 @@
 	import ImageInfoModal from '$lib/components/ImageInfoModal.svelte';
 	import type { Background } from '$lib/types.js';
 
-	let quote: { quote: string; author: string } = data.props?.quote ?? { quote: '', author: '' };
+	let quote: { quote: string } = data.props?.quote ?? { quote: '' };
 
 	let background: Background = data.props?.background ?? { url: '' };
 </script>
@@ -36,7 +36,7 @@
 		class="card card-compact m-12 w-full max-w-4xl bg-base-100 shadow-xl p-6 flex flex-col md:flex-row"
 	>
 		<div class="flex-1">
-			<h3 class="text-center">AdventureLog</h3>
+			<h3 class="text-center">BreweryLog</h3>
 			<article class="text-center text-4xl mb-4 font-extrabold">
 				<h1>{$t('auth.login')}</h1>
 			</article>
@@ -107,7 +107,6 @@
 				{#if quote != null}
 					{quote.quote}
 				{/if}
-				<footer class="text-sm mt-1">{quote.author}</footer>
 			</blockquote>
 		</div>
 	</div>
@@ -122,9 +121,9 @@
 </div>
 
 <svelte:head>
-	<title>Login | AdventureLog</title>
+	<title>Login | BreweryLog</title>
 	<meta
 		name="description"
-		content="Login to your AdventureLog account to start logging your adventures!"
+		content="Login to your BreweryLog account to start logging your breweries!"
 	/>
 </svelte:head>

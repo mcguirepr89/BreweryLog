@@ -49,9 +49,9 @@
 
 {#if isWarningModalOpen}
 	<DeleteWarning
-		title={$t('adventures.delete_note')}
+		title={$t('breweries.delete_note')}
 		button_text="Delete"
-		description={$t('adventures.note_delete_confirm')}
+		description={$t('breweries.note_delete_confirm')}
 		is_warning={false}
 		on:close={() => (isWarningModalOpen = false)}
 		on:confirm={deleteNote}
@@ -67,14 +67,14 @@
 				{note.name}
 			</h2>
 		</div>
-		<div class="badge badge-primary">{$t('adventures.note')}</div>
+		<div class="badge badge-primary">{$t('breweries.note')}</div>
 		{#if unlinked}
-			<div class="badge badge-error">{$t('adventures.out_of_range')}</div>
+			<div class="badge badge-error">{$t('breweries.out_of_range')}</div>
 		{/if}
 		{#if note.links && note.links.length > 0}
 			<p>
 				{note.links.length}
-				{note.links.length > 1 ? $t('adventures.links') : $t('adventures.link')}
+				{note.links.length > 1 ? $t('breweries.links') : $t('breweries.link')}
 			</p>
 		{/if}
 		{#if note.date && note.date !== ''}
@@ -92,8 +92,8 @@
 			</button>
 			{#if note.user_id == user?.uuid || (collection && user && collection.shared_with && collection.shared_with.includes(user.uuid))}
 				<button
-					id="delete_adventure"
-					data-umami-event="Delete Adventure"
+					id="delete_brewery"
+					data-umami-event="Delete Brewery"
 					class="btn btn-warning"
 					on:click={() => (isWarningModalOpen = true)}><TrashCan class="w-6 h-6" /></button
 				>

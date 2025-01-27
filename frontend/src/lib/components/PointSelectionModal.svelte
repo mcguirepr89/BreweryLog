@@ -1,6 +1,6 @@
 <script lang="ts">
 	// @ts-nocheck
-	import type { Adventure, OpenStreetMapPlace, Point } from '$lib/types';
+	import type { Brewery, OpenStreetMapPlace, Point } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	import { onMount } from 'svelte';
@@ -12,7 +12,7 @@
 	let markers: Point[] = [];
 
 	export let query: string | null = null;
-	export let adventure: Adventure;
+	export let brewery: Brewery;
 
 	if (query) {
 		geocode();
@@ -29,12 +29,12 @@
 		if (modal) {
 			modal.showModal();
 		}
-		if (adventure.longitude && adventure.latitude) {
+		if (brewery.longitude && brewery.latitude) {
 			markers = [
 				{
-					lngLat: { lng: adventure.longitude, lat: adventure.latitude },
-					name: adventure.name,
-					location: adventure.location
+					lngLat: { lng: brewery.longitude, lat: brewery.latitude },
+					name: brewery.name,
+					location: brewery.location
 				}
 			];
 		}
@@ -62,7 +62,7 @@
 		}
 		let res = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=jsonv2`, {
 			headers: {
-				'User-Agent': `AdventureLog / ${appVersion} `
+				'User-Agent': `BreweryLog / ${appVersion} `
 			}
 		});
 		console.log(res);
@@ -77,18 +77,18 @@
 		}
 
 		console.log(markers[0]);
-		adventure.longitude = markers[0].lngLat.lng;
-		adventure.latitude = markers[0].lngLat.lat;
-		if (!adventure.location) {
-			adventure.location = markers[0].location;
+		brewery.longitude = markers[0].lngLat.lng;
+		brewery.latitude = markers[0].lngLat.lat;
+		if (!brewery.location) {
+			brewery.location = markers[0].location;
 		}
-		if (!adventure.name) {
-			adventure.name = markers[0].name;
+		if (!brewery.name) {
+			brewery.name = markers[0].name;
 		}
-		if (adventure.type == 'visited' || adventure.type == 'planned') {
-			adventure.activity_types = [...adventure.activity_types, markers[0].activity_type];
+		if (brewery.type == 'visited' || brewery.type == 'planned') {
+			brewery.activity_types = [...brewery.activity_types, markers[0].activity_type];
 		}
-		dispatch('submit', adventure);
+		dispatch('submit', brewery);
 		close();
 	}
 </script>

@@ -37,7 +37,7 @@
 				<p class="text-center mt-2">{$t('settings.photo_by')} {background.author}</p>
 			{/if}
 			{#if background.location != ''}
-				<p class="text-center">{$t('adventures.location')}: {background.location}</p>
+				<p class="text-center">{$t('breweries.location')}: {background.location}</p>
 			{/if}
 			<p class="text-center mt-4">
 				<a
