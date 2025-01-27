@@ -1,149 +1,64 @@
-<div align="center">
+## Huge thanks to Sean Morley [(@seanmorley15)](https://github.com/seanmorley15) for creating such a well-made project 🍺
 
-  <img src="brand/adventurelog.png" alt="logo" width="200" height="auto" />
-  <h1>AdventureLog</h1>
-  
-  <p>
-    The ultimate travel companion for the modern-day explorer.
-  </p>
-   
-<h4>
-    <a href="https://demo.adventurelog.app">View Demo</a>
-  <span> · </span>
-    <a href="https://adventurelog.app">Documentation</a>
-  <span> · </span>
-    <a href="https://discord.gg/wRbQ9Egr8C">Discord</a>
-  <span> · </span>
-    <a href="https://buymeacoffee.com/seanmorley15">Support 💖</a>
-  </h4>
-</div>
+This is a fork of [Sean Morley's](https://seanmorley.com/) [AdventureLog](https://github.com/seanmorley15/AdventureLog/) that is dedicated to tracking visits to breweries. And, yes, I already know about Untappd and agree it's already perfectly suited for this task :smile: -- I just wanted to tinker 🍻
 
-<br />
+# How to set this up
+- Clone the repo:
+  ```
+  git clone https://github.com/mcguirepr89/BreweryLog.git
+  ```
+- Change to the BreweryLog directory:
+  ```
+  cd BreweryLog
+  ```
+- Edit `docker-compose.yml` to configure your installation. See the original [AdventureLog documentation](https://adventurelog.app/docs/install/docker.html) regarding configuration parameters.
+- Then run `prepare.sh` from the `BreweryLog` directory:
+  ```
+  ./prepare.sh
+  ```
+- Then build everything:
+  ```
+  docker compose build -d && docker logs -f brewerylog-backend
+  ```
 
-<!-- Table of Contents -->
+# About `prepare.sh`
+- First, we won't be pulling the images from the ghcr.io repo, but will instead build them against our customizations.
+```
+#!/usr/bin/env bash
+# Switch over to BreweryLog
 
-# Table of Contents
+BACKENDDIR=./backend
+DIRS=("./backend" "./frontend")
 
-- [About the Project](#-about-the-project)
-  - [Screenshots](#-screenshots)
-  - [Tech Stack](#-tech-stack)
-  - [Features](#-features)
-- [Roadmap](#-roadmap)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Contact](#-contact)
-- [Acknowledgements](#-acknowledgements)
-
-<!-- About the Project -->
-
-## ⭐ About the Project
-
-Starting from a simple idea of tracking travel locations (called adventures), AdventureLog has grown into a full-fledged travel companion. With AdventureLog, you can log your adventures, keep track of where you've been on the world map, plan your next trip collaboratively, and share your experiences with friends and family.
-
-AdventureLog was created to solve a problem: the lack of a modern, open-source, user-friendly travel companion. Many existing travel apps are either too complex, too expensive, or too closed-off to be useful for the average traveler. AdventureLog aims to be the opposite: simple, beautiful, and open to everyone.
-
-<!-- Screenshots -->
-
-### 📷 Screenshots
-
-<div align="center"> 
-  <img src="./brand/screenshots/adventures.png" alt="Adventures" />
-  <p>Displays the adventures you have visited and the ones you plan to embark on. You can also filter and sort the adventures.</p>
-  <img src="./brand/screenshots/details.png" alt="Adventure Details" />
-  <p>Shows specific details about an adventure, including the name, date, location, description, and rating.</p>
-  <img src="./brand/screenshots/edit.png" alt="Edit Modal" />
-  <img src="./brand/screenshots/map.png" alt="Adventure Details" />
-  <p>View all of your adventures on a map, with the ability to filter by visit status and add new ones by click on the map</p>
-  <img src="./brand/screenshots/dashboard.png" alt="Dashboard" />
-  <p>Displays a summary of your adventures, including your world travel stats.</p>
-  <img src="./brand/screenshots/itinerary.png" alt="Itinerary" />
-  <p>Plan your adventures and travel itinerary with a list of activities and a map view. View your trip in a variety of ways, including an itinerary list, a map view, and a calendar view.</p>
-  <img src="./brand/screenshots/countries.png" alt="Countries" />
-  <p>Lists all the countries you have visited and plan to visit, with the ability to filter by visit status.</p>
-  <img src="./brand/screenshots/regions.png" alt="Regions" />
-  <p>Displays the regions for a specific country, includes a map view to visually select regions.</p>
-</div>
-
-<!-- TechStack -->
-
-### 🚀 Tech Stack
-
-<details>
-  <summary>Client</summary>
-  <ul>
-    <li><a href="https://svelte.dev/">SvelteKit</a></li>
-    <li><a href="https://tailwindcss.com/">TailwindCSS</a></li>
-    <li><a href="https://daisyui.com/">DaisyUI</a></li>
-    <li><a href="https://github.com/dimfeld/svelte-maplibre/">Svelte MapLibre</a></li>
-  </ul>
-</details>
-
-<details>
-  <summary>Server</summary>
-  <ul>
-    <li><a href="https://www.djangoproject.com/">Django</a></li>
-    <li><a href="https://postgis.net/">PostGIS</a></li>
-    <li><a href="https://www.django-rest-framework.org/">Django REST Framework</a></li>
-    <li><a href="https://allauth.org/">AllAuth</a></li>
-  </ul>
-</details>
-<!-- Features -->
-
-### 🎯 Features
-
-- **Track Your Adventures** 🌍: Log your adventures and keep track of where you've been on the world map.
-  - Adventures can store a variety of information, including the location, date, and description.
-  - Adventures can be sorted into custom categories for easy organization.
-  - Adventures can be marked as private or public, allowing you to share your adventures with friends and family.
-  - Keep track of the countries and regions you've visited with the world travel book.
-- **Plan Your Next Trip** 📃: Take the guesswork out of planning your next adventure with an easy-to-use itinerary planner.
-  - Itineraries can be created for any number of days and can include multiple destinations.
-  - Itineraries include many planning features like flight information, notes, checklists, and links to external resources.
-  - Itineraries can be shared with friends and family for collaborative planning.
-- **Share Your Experiences** 📸: Share your adventures with friends and family and collaborate on trips together.
-  - Adventures and itineraries can be shared via a public link or directly with other AdventureLog users.
-  - Collaborators can view and edit shared itineraries (collections), making planning a breeze.
-
-<!-- Roadmap -->
-
-## 🧭 Roadmap
-
-The AdventureLog Roadmap can be found [here](https://github.com/users/seanmorley15/projects/5)
-
-<!-- Contributing -->
-
-## 👋 Contributing
-
-<a href="https://github.com/seanmorley15/AdventureLog/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=seanmorley15/AdventureLog" />
-</a>
-
-Contributions are always welcome!
-
-See `contributing.md` for ways to get started.
-
-<!-- License -->
-
-## 📃 License
-
-Distributed under the GNU General Public License v3.0. See `LICENSE` for more information.
-
-<!-- Contact -->
-
-## 🤝 Contact
-
-Sean Morley - [website](https://seanmorley.com)
-
-Hi! I'm Sean, the creator of AdventureLog. I'm a college student and software developer with a passion for travel and adventure. I created AdventureLog to help people like me document their adventures and plan new ones effortlessly. As a student, I am always looking for more opportunities to learn and grow, so feel free to reach out via the contact on my website if you would like to collaborate or chat!
-
-<!-- Acknowledgments -->
-
-## 💎 Acknowledgements
-
-- Logo Design by [nordtechtiger](https://github.com/nordtechtiger)
-- WorldTravel Dataset [dr5hn/countries-states-cities-database](https://github.com/dr5hn/countries-states-cities-database)
-
-### Top Supporters 💖
-- [Veymax](https://x.com/veymax)
-- [nebriv](https://github.com/nebriv)
-- [Victor Butler](https://x.com/victor_butler)
+# Edit docker-compose.yml
+sed -i '/ghcr/d;s/adventure/brewery/g;s/#build/build/g' docker-compose.yml
+```
+- Then we need to remove all of the AdventureLog migrations since we're replacing the `adventure` model with the `brewery` model:
+```
+# Remove all old migrations
+find $BACKENDDIR -path "*/migrations/*.py" -not -name "__init__.py" -delete
+find $BACKENDDIR -path "*/migrations/*.pyc"  -delete
+```
+- And since we removed the old migrations, we need to make the new ones. This adds the `python manage.py makemigrations` to the `entrypoint.sh` script just before migrating the database:
+```
+# Edit entrypoint.sh
+sed -i '/Apply/a python manage.py makemigrations' $BACKENDDIR/entrypoint.sh
+```
+- Finally, we replace all instances of "adventure" with "brewery", taking into account pluralization etc.:
+```
+# Replace all adventure instances with brewery stuff
+for dirs in ${DIRS[@]};do
+    # Rename files
+    find $dirs -name '*Adventure*' -exec rename 's/Adventure/Brewery/g' {} \;
+    find $dirs -name '*adventure*' -exec rename 's/adventure/brewery/g' {} \;
+    find $dirs -name '*adventure*' -exec rename 's/adventure/brewery/g' {} \; # <--- Doing this twice is easy enough and saves me from having to figure out why the first time misses a few files
+    find $dirs -name '*Brewerys*' -exec rename 's/Brewerys/Breweries/g' {} \;
+    find $dirs -name '*brewerys*' -exec rename 's/brewerys/breweries/g' {} \;
+    
+    # Replace all references
+    sed -i 's/Adventure/Brewery/g' $(grep -IRl 'Adventure' $dirs)
+    sed -i 's/adventure/brewery/g' $(grep -IRl 'adventure' $dirs)
+    sed -i 's/Brewerys/Breweries/g' $(grep -IRl 'Brewerys' $dirs)
+    sed -i 's/brewerys/breweries/g' $(grep -IRl 'brewerys' $dirs)
+done
+```
