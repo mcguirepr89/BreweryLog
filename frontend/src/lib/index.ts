@@ -1,7 +1,7 @@
 import inspirationalQuotes from './json/quotes.json';
 import randomBackgrounds from './json/backgrounds.json';
 import type {
-	Adventure,
+	Brewery,
 	Background,
 	Checklist,
 	Collection,
@@ -14,8 +14,7 @@ export function getRandomQuote() {
 	const quotes = inspirationalQuotes.quotes;
 	const randomIndex = Math.floor(Math.random() * quotes.length);
 	let quoteString = quotes[randomIndex].quote;
-	let authorString = quotes[randomIndex].author;
-	return { quote: quoteString, author: authorString };
+	return { quote: quoteString };
 }
 
 export function getFlag(size: number, country: string) {
@@ -31,8 +30,8 @@ export function checkLink(link: string) {
 }
 
 export async function exportData() {
-	let res = await fetch('/api/adventures/all');
-	let adventures = (await res.json()) as Adventure[];
+	let res = await fetch('/api/breweries/all');
+	let breweries = (await res.json()) as Brewery[];
 
 	res = await fetch('/api/collections/all');
 	let collections = (await res.json()) as Collection[];
@@ -41,7 +40,7 @@ export async function exportData() {
 	let visitedRegions = await res.json();
 
 	const data = {
-		adventures,
+		breweries,
 		collections,
 		visitedRegions
 	};
@@ -59,50 +58,50 @@ export function isValidUrl(url: string) {
 	}
 }
 
-export function groupAdventuresByDate(
-	adventures: Adventure[],
+export function groupBreweriesByDate(
+	breweries: Brewery[],
 	startDate: Date,
 	numberOfDays: number
-): Record<string, Adventure[]> {
-	const groupedAdventures: Record<string, Adventure[]> = {};
+): Record<string, Brewery[]> {
+	const groupedBreweries: Record<string, Brewery[]> = {};
 
 	// Initialize all days in the range
 	for (let i = 0; i < numberOfDays; i++) {
 		const currentDate = new Date(startDate);
 		currentDate.setUTCDate(startDate.getUTCDate() + i);
 		const dateString = currentDate.toISOString().split('T')[0];
-		groupedAdventures[dateString] = [];
+		groupedBreweries[dateString] = [];
 	}
 
-	adventures.forEach((adventure) => {
-		adventure.visits.forEach((visit) => {
+	breweries.forEach((brewery) => {
+		brewery.visits.forEach((visit) => {
 			if (visit.start_date) {
-				const adventureDate = new Date(visit.start_date).toISOString().split('T')[0];
+				const breweryDate = new Date(visit.start_date).toISOString().split('T')[0];
 				if (visit.end_date) {
 					const endDate = new Date(visit.end_date).toISOString().split('T')[0];
 
-					// Loop through all days and include adventure if it falls within the range
+					// Loop through all days and include brewery if it falls within the range
 					for (let i = 0; i < numberOfDays; i++) {
 						const currentDate = new Date(startDate);
 						currentDate.setUTCDate(startDate.getUTCDate() + i);
 						const dateString = currentDate.toISOString().split('T')[0];
 
-						// Include the current day if it falls within the adventure date range
-						if (dateString >= adventureDate && dateString <= endDate) {
-							if (groupedAdventures[dateString]) {
-								groupedAdventures[dateString].push(adventure);
+						// Include the current day if it falls within the brewery date range
+						if (dateString >= breweryDate && dateString <= endDate) {
+							if (groupedBreweries[dateString]) {
+								groupedBreweries[dateString].push(brewery);
 							}
 						}
 					}
-				} else if (groupedAdventures[adventureDate]) {
-					// If there's no end date, add adventure to the start date only
-					groupedAdventures[adventureDate].push(adventure);
+				} else if (groupedBreweries[breweryDate]) {
+					// If there's no end date, add brewery to the start date only
+					groupedBreweries[breweryDate].push(brewery);
 				}
 			}
 		});
 	});
 
-	return groupedAdventures;
+	return groupedBreweries;
 }
 
 export function groupTransportationsByDate(
@@ -253,7 +252,7 @@ export let ADVENTURE_TYPES = [
 	{ type: 'other', label: 'Other' }
 ];
 
-// adventure type to icon mapping
+// brewery type to icon mapping
 export let ADVENTURE_TYPE_ICONS = {
 	general: '🌍',
 	outdoor: '🏞️',
@@ -279,7 +278,7 @@ export let ADVENTURE_TYPE_ICONS = {
 	other: '❓'
 };
 
-export function getAdventureTypeLabel(type: string) {
+export function getBreweryTypeLabel(type: string) {
 	// return the emoji ADVENTURE_TYPE_ICONS label for the given type if not found return ? emoji
 	if (type in ADVENTURE_TYPE_ICONS) {
 		return ADVENTURE_TYPE_ICONS[type as keyof typeof ADVENTURE_TYPE_ICONS];
@@ -300,9 +299,9 @@ export function getRandomBackground() {
 	newYearsEnd.setHours(23, 59, 59, 999);
 	if (today >= newYearsStart && today <= newYearsEnd) {
 		return {
-			url: 'backgrounds/adventurelog_new_year.webp',
+			url: 'backgrounds/brewerylog_new_year.webp',
 			author: 'Roven Images',
-			location: "Happy New Year's from the AdventureLog team!"
+			location: "Happy New Year's from the BreweryLog team!"
 		} as Background;
 	}
 
@@ -314,9 +313,9 @@ export function getRandomBackground() {
 
 	if (today >= christmasStart && today <= christmasEnd) {
 		return {
-			url: 'backgrounds/adventurelog_christmas.webp',
+			url: 'backgrounds/brewerylog_christmas.webp',
 			author: 'Annie Spratt',
-			location: 'Merry Christmas from the AdventureLog team!'
+			location: 'Merry Christmas from the BreweryLog team!'
 		} as Background;
 	}
 
