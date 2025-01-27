@@ -75,6 +75,7 @@ Distributed under the GNU General Public License v3.0. See `LICENSE` for more in
 - AdventureLog Logo Design by [nordtechtiger](https://github.com/nordtechtiger)
 - WorldTravel Dataset [dr5hn/countries-states-cities-database](https://github.com/dr5hn/countries-states-cities-database)
 - BreweryLog Emoji by [Laura Humpfer](https://openmoji.org/library/#author=Laura%20Humpfer) under the [CC BY-SA 4.0 License](https://creativecommons.org/licenses/by-sa/4.0/)
+- Beer quotes from [this page](https://pos.toasttab.com/blog/on-the-line/beer-quotes-and-captions) by Tessa Zuluaga
 
 ### Top Supporters 
 - [Veymax](https://x.com/veymax)
