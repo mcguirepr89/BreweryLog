@@ -60,5 +60,23 @@ for dirs in ${DIRS[@]};do
     sed -i 's/adventure/brewery/g' $(grep -IRl 'adventure' $dirs)
     sed -i 's/Brewerys/Breweries/g' $(grep -IRl 'Brewerys' $dirs)
     sed -i 's/brewerys/breweries/g' $(grep -IRl 'brewerys' $dirs)
+
+    # Fix github links to be sure source code and attribution is provided with app
+    sed -i 's/github.com\/seanmorley15/github.com\/mcguirepr89/g' $(grep -IRl 'github.com/seanmorley15' $dirs)
 done
 ```
+
+## License
+
+Distributed under the GNU General Public License v3.0. See `LICENSE` for more information.
+
+## Acknowledgements
+
+- Logo Design by [nordtechtiger](https://github.com/nordtechtiger)
+- WorldTravel Dataset [dr5hn/countries-states-cities-database](https://github.com/dr5hn/countries-states-cities-database)
+
+### Top Supporters 
+- [Veymax](https://x.com/veymax)
+- [nebriv](https://github.com/nebriv)
+- [Victor Butler](https://x.com/victor_butler)
+
