@@ -11,7 +11,7 @@
 		icon: '',
 		id: '',
 		user_id: '',
-		num_adventures: 0
+		num_breweries: 0
 	};
 
 	let isOpen: boolean = false;
@@ -44,7 +44,7 @@
 	let dropdownRef: HTMLDivElement;
 
 	onMount(() => {
-		categories = categories.sort((a, b) => (b.num_adventures || 0) - (a.num_adventures || 0));
+		categories = categories.sort((a, b) => (b.num_breweries || 0) - (a.num_breweries || 0));
 		const handleClickOutside = (event: MouseEvent) => {
 			if (dropdownRef && !dropdownRef.contains(event.target as Node)) {
 				isOpen = false;
@@ -86,11 +86,11 @@
 						bind:value={new_category.icon}
 					/>
 					<button on:click={toggleEmojiPicker} type="button" class="btn btn-secondary">
-						{!isEmojiPickerVisible ? $t('adventures.show') : $t('adventures.hide')}
-						{$t('adventures.emoji_picker')}
+						{!isEmojiPickerVisible ? $t('breweries.show') : $t('breweries.hide')}
+						{$t('breweries.emoji_picker')}
 					</button>
 					<button on:click={custom_category} type="button" class="btn btn-primary">
-						{$t('adventures.add')}
+						{$t('breweries.add')}
 					</button>
 				</div>
 
@@ -105,7 +105,7 @@
 				<!-- Sort the categories dynamically before rendering -->
 				{#each categories
 					.slice()
-					.sort((a, b) => (b.num_adventures || 0) - (a.num_adventures || 0)) as category}
+					.sort((a, b) => (b.num_breweries || 0) - (a.num_breweries || 0)) as category}
 					<button
 						type="button"
 						class="btn btn-neutral flex items-center space-x-2"
@@ -113,7 +113,7 @@
 						role="option"
 						aria-selected={selected_category && selected_category.id === category.id}
 					>
-						<span>{category.display_name} {category.icon} ({category.num_adventures})</span>
+						<span>{category.display_name} {category.icon} ({category.num_breweries})</span>
 					</button>
 				{/each}
 			</div>

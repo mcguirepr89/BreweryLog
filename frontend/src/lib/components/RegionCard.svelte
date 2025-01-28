@@ -66,11 +66,11 @@
 			<!-- <button class="btn btn-info" on:click={moreInfo}>More Info</button> -->
 			{#if !visited && visited !== undefined}
 				<button class="btn btn-primary" on:click={markVisited}
-					>{$t('adventures.mark_visited')}</button
+					>{$t('breweries.mark_visited')}</button
 				>
 			{/if}
 			{#if visited && visited !== undefined}
-				<button class="btn btn-warning" on:click={removeVisit}>{$t('adventures.remove')}</button>
+				<button class="btn btn-warning" on:click={removeVisit}>{$t('breweries.remove')}</button>
 			{/if}
 			{#if region.num_cities > 0}
 				<button class="btn btn-neutral-300" on:click={goToCity}

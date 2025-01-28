@@ -39,7 +39,7 @@
 		on:click={() => (is_preview = true)}
 		class:btn-active={is_preview}
 	>
-		{$t('adventures.preview')}
+		{$t('breweries.preview')}
 	</button>
 </div>
 
@@ -50,7 +50,7 @@
 			class="textarea textarea-bordered resize-none {editor_height}  w-full"
 			bind:this={editorRef}
 			bind:value={text}
-			placeholder={$t('adventures.md_instructions')}
+			placeholder={$t('breweries.md_instructions')}
 			on:scroll={syncScroll}
 		></textarea>
 	{/if}

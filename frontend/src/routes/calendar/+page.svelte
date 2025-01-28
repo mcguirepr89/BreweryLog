@@ -11,7 +11,7 @@
 
 	export let data: PageData;
 
-	let adventures = data.props.adventures;
+	let breweries = data.props.breweries;
 	let dates = data.props.dates;
 
 	let icsCalendar = data.props.ics_calendar;
@@ -26,13 +26,13 @@
 	console.log(dates);
 </script>
 
-<h1 class="text-center text-2xl font-bold">{$t('adventures.adventure_calendar')}</h1>
+<h1 class="text-center text-2xl font-bold">{$t('breweries.brewery_calendar')}</h1>
 
 <Calendar {plugins} {options} />
 
 <!-- download calendar -->
 <div class="flex items-center justify-center mt-4">
-	<a href={icsCalendarDataUrl} download="adventures.ics" class="btn btn-primary"
+	<a href={icsCalendarDataUrl} download="breweries.ics" class="btn btn-primary"
 		>Download Calendar</a
 	>
 </div>

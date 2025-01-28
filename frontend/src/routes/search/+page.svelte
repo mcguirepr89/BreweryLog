@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AdventureCard from '$lib/components/AdventureCard.svelte';
+	import BreweryCard from '$lib/components/BreweryCard.svelte';
 	import RegionCard from '$lib/components/RegionCard.svelte';
 	import CityCard from '$lib/components/CityCard.svelte';
 	import CountryCard from '$lib/components/CountryCard.svelte';
@@ -9,7 +9,7 @@
 	import type { PageData } from './$types';
 	import { t } from 'svelte-i18n';
 	import type {
-		Adventure,
+		Brewery,
 		Collection,
 		User,
 		Country,
@@ -26,7 +26,7 @@
 	$: query = $page.url.searchParams.get('query') ?? '';
 
 	// Assign updated results from data, so when data changes, the displayed items update:
-	$: adventures = data.adventures as Adventure[];
+	$: breweries = data.breweries as Brewery[];
 	$: collections = data.collections as Collection[];
 	$: users = data.users as User[];
 	$: countries = data.countries as Country[];
@@ -38,11 +38,11 @@
 
 <h1 class="text-4xl font-bold text-center m-4">Search{query ? `: ${query}` : ''}</h1>
 
-{#if adventures.length > 0}
-	<h2 class="text-3xl font-bold text-center m-4">Adventures</h2>
+{#if breweries.length > 0}
+	<h2 class="text-3xl font-bold text-center m-4">Breweries</h2>
 	<div class="flex flex-wrap gap-4 mr-4 ml-4 justify-center content-center">
-		{#each adventures as adventure}
-			<AdventureCard {adventure} user={null} />
+		{#each breweries as brewery}
+			<BreweryCard {brewery} user={null} />
 		{/each}
 	</div>
 {/if}
@@ -92,13 +92,13 @@
 	</div>
 {/if}
 
-{#if adventures.length === 0 && regions.length === 0 && cities.length === 0 && countries.length === 0 && collections.length === 0 && users.length === 0}
+{#if breweries.length === 0 && regions.length === 0 && cities.length === 0 && countries.length === 0 && collections.length === 0 && users.length === 0}
 	<p class="text-center text-lg m-4">
-		{$t('adventures.no_results')}
+		{$t('breweries.no_results')}
 	</p>
 {/if}
 
 <svelte:head>
 	<title>Search: {query}</title>
-	<meta name="description" content="AdventureLog global search results for {query}" />
+	<meta name="description" content="BreweryLog global search results for {query}" />
 </svelte:head>

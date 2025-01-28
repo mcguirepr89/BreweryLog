@@ -53,9 +53,9 @@
 <UmamiAnalyticsEnv />
 
 <svelte:head>
-	<title>AdventureLog</title>
+	<title>BreweryLog</title>
 	<meta
 		name="description"
-		content="Embark, explore, remember with AdventureLog. AdventureLog is the ultimate travel companion."
+		content="Embark, explore, remember with BreweryLog. BreweryLog is the ultimate travel companion."
 	/>
 </svelte:head>

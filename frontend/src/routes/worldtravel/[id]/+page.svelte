@@ -78,11 +78,11 @@
 	<div class="stats shadow bg-base-300">
 		<div class="stat">
 			<div class="stat-title">{$t('worldtravel.region_stats')}</div>
-			<div class="stat-value">{numVisitedRegions}/{numRegions} {$t('adventures.visited')}</div>
+			<div class="stat-value">{numVisitedRegions}/{numRegions} {$t('breweries.visited')}</div>
 			{#if numRegions === numVisitedRegions}
 				<div class="stat-desc">{$t('worldtravel.all_visited')} {country?.name} 🎉!</div>
 			{:else}
-				<div class="stat-desc">{$t('adventures.keep_exploring')}</div>
+				<div class="stat-desc">{$t('breweries.keep_exploring')}</div>
 			{/if}
 		</div>
 	</div>
@@ -108,7 +108,7 @@
 </div>
 
 <div class="flex justify-center border-neutral p-4 rounded-lg border-4 max-w-lg m-auto mt-4">
-	<label for="show-geo">{$t('adventures.show_region_labels')}</label>
+	<label for="show-geo">{$t('breweries.show_region_labels')}</label>
 	<input
 		type="checkbox"
 		id="show-geo"

@@ -19,7 +19,7 @@
 		end_date: collectionToEdit?.end_date || null,
 		user_id: collectionToEdit?.user_id || '',
 		is_public: collectionToEdit?.is_public || false,
-		adventures: collectionToEdit?.adventures || [],
+		breweries: collectionToEdit?.breweries || [],
 		link: collectionToEdit?.link || '',
 		shared_with: undefined
 	};
@@ -56,7 +56,7 @@
 			collection.end_date &&
 			collection.start_date > collection.end_date
 		) {
-			addToast('error', $t('adventures.start_before_end_error'));
+			addToast('error', $t('breweries.start_before_end_error'));
 			return;
 		}
 
@@ -111,7 +111,7 @@
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<div class="modal-box w-11/12 max-w-3xl" role="dialog" on:keydown={handleKeydown} tabindex="0">
 		<h3 class="font-bold text-2xl">
-			{collectionToEdit ? $t('adventures.edit_collection') : $t('collection.new_collection')}
+			{collectionToEdit ? $t('breweries.edit_collection') : $t('collection.new_collection')}
 		</h3>
 		<div class="modal-action items-center">
 			<form method="post" style="width: 100%;" on:submit={handleSubmit}>
@@ -119,13 +119,13 @@
 				<div class="collapse collapse-plus bg-base-200 mb-4">
 					<input type="checkbox" checked />
 					<div class="collapse-title text-xl font-medium">
-						{$t('adventures.basic_information')}
+						{$t('breweries.basic_information')}
 					</div>
 					<div class="collapse-content">
 						<!-- Name -->
 						<div>
 							<label for="name">
-								{$t('adventures.name')}<span class="text-red-500">*</span>
+								{$t('breweries.name')}<span class="text-red-500">*</span>
 							</label>
 							<input
 								type="text"
@@ -138,12 +138,12 @@
 						</div>
 						<!-- Description -->
 						<div>
-							<label for="description">{$t('adventures.description')}</label><br />
+							<label for="description">{$t('breweries.description')}</label><br />
 							<MarkdownEditor bind:text={collection.description} editor_height={'h-32'} />
 						</div>
 						<!-- Start Date -->
 						<div>
-							<label for="start_date">{$t('adventures.start_date')}</label>
+							<label for="start_date">{$t('breweries.start_date')}</label>
 							<input
 								type="date"
 								id="start_date"
@@ -154,7 +154,7 @@
 						</div>
 						<!-- End Date -->
 						<div>
-							<label for="end_date">{$t('adventures.end_date')}</label>
+							<label for="end_date">{$t('breweries.end_date')}</label>
 							<input
 								type="date"
 								id="end_date"
@@ -178,7 +178,7 @@
 						</div>
 						<!-- Link -->
 						<div>
-							<label for="link">{$t('adventures.link')}</label>
+							<label for="link">{$t('breweries.link')}</label>
 							<input
 								type="text"
 								id="link"
@@ -192,7 +192,7 @@
 				<!-- Form Actions -->
 				<div class="mt-4">
 					<button type="submit" class="btn btn-primary">
-						{$t('adventures.save_next')}
+						{$t('breweries.save_next')}
 					</button>
 					<button type="button" class="btn" on:click={close}>
 						{$t('about.close')}

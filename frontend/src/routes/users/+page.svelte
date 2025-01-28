@@ -9,7 +9,7 @@
 	console.log(users);
 </script>
 
-<h1 class="text-center font-bold text-4xl mb-4">AdventureLog {$t('navbar.users')}</h1>
+<h1 class="text-center font-bold text-4xl mb-4">BreweryLog {$t('navbar.users')}</h1>
 <div class="flex flex-wrap gap-4 mr-4 justify-center content-center">
 	{#each users as user (user.uuid)}
 		<UserCard {user} />
@@ -22,5 +22,5 @@
 
 <svelte:head>
 	<title>Users</title>
-	<meta name="description" content="View your adventure collections." />
+	<meta name="description" content="View your brewery collections." />
 </svelte:head>

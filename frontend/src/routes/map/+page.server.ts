@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 const PUBLIC_SERVER_URL = process.env['PUBLIC_SERVER_URL'];
-import type { Adventure, VisitedRegion } from '$lib/types';
+import type { Brewery, VisitedRegion } from '$lib/types';
 const endpoint = PUBLIC_SERVER_URL || 'http://localhost:8000';
 
 export const load = (async (event) => {
@@ -9,7 +9,7 @@ export const load = (async (event) => {
 		return redirect(302, '/login');
 	} else {
 		let sessionId = event.cookies.get('sessionid');
-		let visitedFetch = await fetch(`${endpoint}/api/adventures/all/?include_collections=true`, {
+		let visitedFetch = await fetch(`${endpoint}/api/breweries/all/?include_collections=true`, {
 			headers: {
 				Cookie: `sessionid=${sessionId}`
 			}
@@ -22,19 +22,19 @@ export const load = (async (event) => {
 		});
 
 		let visitedRegions = (await visitedRegionsFetch.json()) as VisitedRegion[];
-		let adventures = (await visitedFetch.json()) as Adventure[];
+		let breweries = (await visitedFetch.json()) as Brewery[];
 
 		if (!visitedRegionsFetch.ok) {
 			console.error('Failed to fetch visited regions');
 			return redirect(302, '/login');
 		} else if (!visitedFetch.ok) {
-			console.error('Failed to fetch visited adventures');
+			console.error('Failed to fetch visited breweries');
 			return redirect(302, '/login');
 		} else {
 			return {
 				props: {
 					visitedRegions,
-					adventures
+					breweries
 				}
 			};
 		}

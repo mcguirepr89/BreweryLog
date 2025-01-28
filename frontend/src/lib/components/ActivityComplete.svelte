@@ -55,7 +55,7 @@
 		<input
 			type="text"
 			class="input input-bordered w-full"
-			placeholder={$t('adventures.add_a_tag')}
+			placeholder={$t('breweries.add_a_tag')}
 			bind:value={inputVal}
 			on:keydown={(e) => {
 				if (e.key === 'Enter') {
@@ -65,7 +65,7 @@
 			}}
 		/>
 		<button type="button" class="btn btn-neutral" on:click={addActivity}
-			>{$t('adventures.add')}</button
+			>{$t('breweries.add')}</button
 		>
 	</div>
 	{#if inputVal && filteredItems.length > 0}
@@ -99,7 +99,7 @@
 						class="btn btn-sm btn-error"
 						on:click={() => removeActivity(activity)}
 					>
-						{$t('adventures.remove')}
+						{$t('breweries.remove')}
 					</button>
 				</li>
 			{/each}

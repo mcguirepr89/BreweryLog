@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 const PUBLIC_SERVER_URL = process.env['PUBLIC_SERVER_URL'];
-import type { Adventure, Collection } from '$lib/types';
+import type { Brewery, Collection } from '$lib/types';
 const endpoint = PUBLIC_SERVER_URL || 'http://localhost:8000';
 
 export const load = (async (event) => {
@@ -13,10 +13,10 @@ export const load = (async (event) => {
 		}
 	});
 	if (!request.ok) {
-		console.error('Failed to fetch adventure ' + id.id);
+		console.error('Failed to fetch brewery ' + id.id);
 		return {
 			props: {
-				adventure: null
+				brewery: null
 			}
 		};
 	} else {
@@ -24,7 +24,7 @@ export const load = (async (event) => {
 
 		return {
 			props: {
-				adventure: collection
+				brewery: collection
 			}
 		};
 	}
@@ -38,9 +38,9 @@ const serverEndpoint = PUBLIC_SERVER_URL || 'http://localhost:8000';
 export const actions: Actions = {
 	delete: async (event) => {
 		const id = event.params as { id: string };
-		const adventureId = id.id;
+		const breweryId = id.id;
 
-		if (!adventureId) {
+		if (!breweryId) {
 			return {
 				status: 400,
 				error: new Error('Bad request')

@@ -1,8 +1,7 @@
 services:
   web:
-    #build: ./frontend/
-    image: ghcr.io/seanmorley15/adventurelog-frontend:latest
-    container_name: adventurelog-frontend
+    build: ./frontend/
+    container_name: brewerylog-frontend
     restart: unless-stopped
     environment:
       - PUBLIC_SERVER_URL=http://server:8000 # Should be the service name of the backend with port 8000, even if you change the port in the backend service
@@ -15,24 +14,23 @@ services:
 
   db:
     image: postgis/postgis:15-3.3
-    container_name: adventurelog-db
+    container_name: brewerylog-db
     restart: unless-stopped
     environment:
       POSTGRES_DB: database
-      POSTGRES_USER: adventure
+      POSTGRES_USER: brewery
       POSTGRES_PASSWORD: changeme123
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
   server:
-    #build: ./backend/
-    image: ghcr.io/seanmorley15/adventurelog-backend:latest
-    container_name: adventurelog-backend
+    build: ./backend/
+    container_name: brewerylog-backend
     restart: unless-stopped
     environment:
       - PGHOST=db
       - PGDATABASE=database
-      - PGUSER=adventure
+      - PGUSER=brewery
       - PGPASSWORD=changeme123
       - SECRET_KEY=changeme123
       - DJANGO_ADMIN_USERNAME=admin
@@ -47,8 +45,8 @@ services:
     depends_on:
       - db
     volumes:
-      - adventurelog_media:/code/media/
+      - brewerylog_media:/code/media/
 
 volumes:
   postgres_data:
-  adventurelog_media:
+  brewerylog_media:

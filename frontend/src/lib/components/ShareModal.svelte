@@ -92,7 +92,7 @@
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 	<div class="modal-box w-11/12 max-w-5xl" role="dialog" on:keydown={handleKeydown} tabindex="0">
-		<h3 class="font-bold text-lg">{$t('adventures.share')} {collection.name}</h3>
+		<h3 class="font-bold text-lg">{$t('breweries.share')} {collection.name}</h3>
 		<p class="py-1">{$t('share.share_desc')}</p>
 		<div class="divider"></div>
 		<h3 class="font-bold text-md">{$t('share.shared_with')}</h3>

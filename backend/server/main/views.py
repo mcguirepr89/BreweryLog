@@ -4,7 +4,7 @@ from os import getenv
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseForbidden
 from django.views.static import serve
-from adventures.utils.file_permissions import checkFilePermission
+from breweries.utils.file_permissions import checkFilePermission
 
 def get_csrf_token(request):
     csrf_token = get_token(request)

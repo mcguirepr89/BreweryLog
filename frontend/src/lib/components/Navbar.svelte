@@ -110,7 +110,7 @@
 			>
 				{#if data.user}
 					<li>
-						<button on:click={() => goto('/adventures')}>{$t('navbar.adventures')}</button>
+						<button on:click={() => goto('/breweries')}>{$t('navbar.breweries')}</button>
 					</li>
 					<li>
 						<button on:click={() => goto('/collections')}>{$t('navbar.collections')}</button>
@@ -168,15 +168,15 @@
 			</ul>
 		</div>
 		<a class="btn btn-ghost text-xl" href="/"
-			>AdventureLog <img src="/favicon.png" alt="Map Logo" class="w-10" /></a
+			>BreweryLog <img src="/favicon.png" alt="Map Logo" class="w-10" /></a
 		>
 	</div>
 	<div class="navbar-center hidden lg:flex">
 		<ul class="menu menu-horizontal px-1 gap-2">
 			{#if data.user}
 				<li>
-					<button class="btn btn-neutral" on:click={() => goto('/adventures')}
-						>{$t('navbar.adventures')}</button
+					<button class="btn btn-neutral" on:click={() => goto('/breweries')}
+						>{$t('navbar.breweries')}</button
 					>
 				</li>
 				<li>
@@ -248,7 +248,7 @@
 				<button class="btn" on:click={() => (isAboutModalOpen = true)}>{$t('navbar.about')}</button>
 				<button
 					class="btn btn-sm mt-2"
-					on:click={() => (window.location.href = 'https://adventurelog.app')}
+					on:click={() => (window.location.href = 'https://brewerylog.app')}
 					>{$t('navbar.documentation')}</button
 				>
 				<button

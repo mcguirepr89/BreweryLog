@@ -164,7 +164,7 @@
 						dispatch('fetchImage', fullUrl);
 					}}
 				>
-					{$t('adventures.upload_image')}
+					{$t('breweries.upload_image')}
 				</button>
 			</div>
 		{/each}

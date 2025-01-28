@@ -1,16 +1,16 @@
-import type { Adventure } from '$lib/types';
+import type { Brewery } from '$lib/types';
 import type { PageServerLoad } from './$types';
 const PUBLIC_SERVER_URL = process.env['PUBLIC_SERVER_URL'];
 const endpoint = PUBLIC_SERVER_URL || 'http://localhost:8000';
 
 export const load = (async (event) => {
 	let sessionId = event.cookies.get('sessionid');
-	let visitedFetch = await fetch(`${endpoint}/api/adventures/all/?include_collections=true`, {
+	let visitedFetch = await fetch(`${endpoint}/api/breweries/all/?include_collections=true`, {
 		headers: {
 			Cookie: `sessionid=${sessionId}`
 		}
 	});
-	let adventures = (await visitedFetch.json()) as Adventure[];
+	let breweries = (await visitedFetch.json()) as Brewery[];
 
 	let dates: Array<{
 		id: string;
@@ -19,14 +19,14 @@ export const load = (async (event) => {
 		title: string;
 		backgroundColor?: string;
 	}> = [];
-	adventures.forEach((adventure) => {
-		adventure.visits.forEach((visit) => {
+	breweries.forEach((brewery) => {
+		brewery.visits.forEach((visit) => {
 			if (visit.start_date) {
 				dates.push({
-					id: adventure.id,
+					id: brewery.id,
 					start: visit.start_date,
 					end: visit.end_date || visit.start_date,
-					title: adventure.name + (adventure.category?.icon ? ' ' + adventure.category.icon : '')
+					title: brewery.name + (brewery.category?.icon ? ' ' + brewery.category.icon : '')
 				});
 			}
 		});
@@ -41,7 +41,7 @@ export const load = (async (event) => {
 
 	return {
 		props: {
-			adventures,
+			breweries,
 			dates,
 			ics_calendar
 		}

@@ -91,7 +91,7 @@
 		const fetchLocation = async (query: string) => {
 			let res = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=jsonv2`, {
 				headers: {
-					'User-Agent': `AdventureLog / ${appVersion} `
+					'User-Agent': `BreweryLog / ${appVersion} `
 				}
 			});
 			let data = await res.json();
@@ -103,14 +103,14 @@
 
 		if (transportation.type == 'plane') {
 			if (!starting_airport || !ending_airport) {
-				alert($t('adventures.no_location'));
+				alert($t('breweries.no_location'));
 				return;
 			}
 			startingData = await fetchLocation(starting_airport + ' Airport');
 			endingData = await fetchLocation(ending_airport + ' Airport');
 		} else {
 			if (!transportation.from_location || !transportation.to_location) {
-				alert($t('adventures.no_location'));
+				alert($t('breweries.no_location'));
 				return;
 			}
 			startingData = await fetchLocation(transportation?.from_location || '');
@@ -118,7 +118,7 @@
 		}
 
 		if (startingData.length === 0 || endingData.length === 0) {
-			alert($t('adventures.no_location_found'));
+			alert($t('breweries.no_location_found'));
 			return;
 		}
 
@@ -180,7 +180,7 @@
 			transportation.end_date &&
 			transportation.date > transportation.end_date
 		) {
-			addToast('error', $t('adventures.start_before_end_error'));
+			addToast('error', $t('breweries.start_before_end_error'));
 			return;
 		}
 
@@ -199,11 +199,11 @@
 			let data = await res.json();
 			if (data.id) {
 				transportation = data as Transportation;
-				addToast('success', $t('adventures.adventure_created'));
+				addToast('success', $t('breweries.brewery_created'));
 				dispatch('save', transportation);
 			} else {
 				console.error(data);
-				addToast('error', $t('adventures.adventure_create_error'));
+				addToast('error', $t('breweries.brewery_create_error'));
 			}
 		} else {
 			let res = await fetch(`/api/transportations/${transportation.id}`, {
@@ -216,10 +216,10 @@
 			let data = await res.json();
 			if (data.id) {
 				transportation = data as Transportation;
-				addToast('success', $t('adventures.adventure_updated'));
+				addToast('success', $t('breweries.brewery_updated'));
 				dispatch('save', transportation);
 			} else {
-				addToast('error', $t('adventures.adventure_update_error'));
+				addToast('error', $t('breweries.brewery_update_error'));
 			}
 		}
 	}
@@ -240,7 +240,7 @@
 				<div class="collapse collapse-plus bg-base-200 mb-4">
 					<input type="checkbox" checked />
 					<div class="collapse-title text-xl font-medium">
-						{$t('adventures.basic_information')}
+						{$t('breweries.basic_information')}
 					</div>
 					<div class="collapse-content">
 						<!-- Type selection -->
@@ -270,7 +270,7 @@
 						<!-- Name -->
 						<div>
 							<label for="name">
-								{$t('adventures.name')}<span class="text-red-500">*</span>
+								{$t('breweries.name')}<span class="text-red-500">*</span>
 							</label>
 							<input
 								type="text"
@@ -283,12 +283,12 @@
 						</div>
 						<!-- Description -->
 						<div>
-							<label for="description">{$t('adventures.description')}</label><br />
+							<label for="description">{$t('breweries.description')}</label><br />
 							<MarkdownEditor bind:text={transportation.description} editor_height={'h-32'} />
 						</div>
 						<!-- Rating -->
 						<div>
-							<label for="rating">{$t('adventures.rating')}</label><br />
+							<label for="rating">{$t('breweries.rating')}</label><br />
 							<input
 								type="number"
 								min="0"
@@ -347,14 +347,14 @@
 										class="btn btn-sm btn-error ml-2"
 										on:click={() => (transportation.rating = NaN)}
 									>
-										{$t('adventures.remove')}
+										{$t('breweries.remove')}
 									</button>
 								{/if}
 							</div>
 						</div>
 						<!-- Link -->
 						<div>
-							<label for="link">{$t('adventures.link')}</label>
+							<label for="link">{$t('breweries.link')}</label>
 							<input
 								type="url"
 								id="link"
@@ -368,19 +368,19 @@
 				<div class="collapse collapse-plus bg-base-200 mb-4">
 					<input type="checkbox" checked />
 					<div class="collapse-title text-xl font-medium">
-						{$t('adventures.date_information')}
+						{$t('breweries.date_information')}
 					</div>
 					<div class="collapse-content">
 						<!-- Start Date -->
 						<div>
 							<label for="date">
-								{$t('adventures.start_date')}
+								{$t('breweries.start_date')}
 							</label>
 
 							{#if collection && collection.start_date && collection.end_date}<label
 									class="label cursor-pointer flex items-start space-x-2"
 								>
-									<span class="label-text">{$t('adventures.date_constrain')}</span>
+									<span class="label-text">{$t('breweries.date_constrain')}</span>
 									<input
 										type="checkbox"
 										class="toggle toggle-primary"
@@ -406,7 +406,7 @@
 						{#if transportation.date}
 							<div>
 								<label for="end_date">
-									{$t('adventures.end_date')}
+									{$t('breweries.end_date')}
 								</label>
 								<div>
 									<input
@@ -430,9 +430,9 @@
 					<input type="checkbox" checked />
 					<div class="collapse-title text-xl font-medium">
 						{#if transportation?.type == 'plane'}
-							{$t('adventures.flight_information')}
+							{$t('breweries.flight_information')}
 						{:else}
-							{$t('adventures.location_information')}
+							{$t('breweries.location_information')}
 						{/if}
 					</div>
 
@@ -456,7 +456,7 @@
 							{#if !transportation.from_location || !transportation.to_location}
 								<div class="mb-4">
 									<label for="starting_airport" class="label">
-										<span class="label-text">{$t('adventures.starting_airport')}</span>
+										<span class="label-text">{$t('breweries.starting_airport')}</span>
 									</label>
 									<input
 										type="text"
@@ -467,7 +467,7 @@
 										placeholder="Enter starting airport code (e.g., JFK)"
 									/>
 									<label for="ending_airport" class="label">
-										<span class="label-text">{$t('adventures.ending_airport')}</span>
+										<span class="label-text">{$t('breweries.ending_airport')}</span>
 									</label>
 									<input
 										type="text"
@@ -584,7 +584,7 @@ it would also work to just use on:click on the MapLibre component itself. -->
 									transportation.destination_longitude = NaN;
 								}}
 							>
-								{$t('adventures.clear_location')}
+								{$t('breweries.clear_location')}
 							</button>
 						{/if}
 					</div>

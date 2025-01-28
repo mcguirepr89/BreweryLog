@@ -39,11 +39,11 @@
 			<h3
 				class="text-2xl font-extrabold text-gray-800 dark:text-white flex items-center justify-center"
 			>
-				{$t('about.about')} AdventureLog
+				{$t('about.about')} BreweryLog
 				<img src="/favicon.png" alt="Map Logo" class="w-12 h-12 ml-3 inline-block" />
 			</h3>
 			<p class="mt-2 text-gray-500 dark:text-gray-300 text-sm">
-				AdventureLog
+				BreweryLog
 				<a
 					href={versionChangelog}
 					target="_blank"
@@ -71,7 +71,7 @@
 			<p class="text-sm text-gray-600 dark:text-gray-400">{$t('about.license')}</p>
 			<p class="text-sm text-gray-600 dark:text-gray-400">
 				<a
-					href="https://github.com/seanmorley15/AdventureLog"
+					href="https://github.com/mcguirepr89/BreweryLog"
 					target="_blank"
 					rel="noopener noreferrer"
 					class="text-primary hover:underline"

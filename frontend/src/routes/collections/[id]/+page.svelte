@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Adventure, Checklist, Collection, Note, Transportation } from '$lib/types';
+	import type { Brewery, Checklist, Collection, Note, Transportation } from '$lib/types';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import { marked } from 'marked'; // Import the markdown parser
@@ -14,8 +14,8 @@
 	import DayGrid from '@event-calendar/day-grid';
 
 	import Plus from '~icons/mdi/plus';
-	import AdventureCard from '$lib/components/AdventureCard.svelte';
-	import AdventureLink from '$lib/components/AdventureLink.svelte';
+	import BreweryCard from '$lib/components/BreweryCard.svelte';
+	import BreweryLink from '$lib/components/BreweryLink.svelte';
 	import NotFound from '$lib/components/NotFound.svelte';
 	import { DefaultMarker, MapLibre, Marker, Popup } from 'svelte-maplibre';
 	import TransportationCard from '$lib/components/TransportationCard.svelte';
@@ -23,7 +23,7 @@
 	import NoteModal from '$lib/components/NoteModal.svelte';
 
 	import {
-		groupAdventuresByDate,
+		groupBreweriesByDate,
 		groupNotesByDate,
 		groupTransportationsByDate,
 		groupChecklistsByDate,
@@ -31,7 +31,7 @@
 	} from '$lib';
 	import ChecklistCard from '$lib/components/ChecklistCard.svelte';
 	import ChecklistModal from '$lib/components/ChecklistModal.svelte';
-	import AdventureModal from '$lib/components/AdventureModal.svelte';
+	import BreweryModal from '$lib/components/BreweryModal.svelte';
 	import TransportationModal from '$lib/components/TransportationModal.svelte';
 	import CardCarousel from '$lib/components/CardCarousel.svelte';
 	import { goto } from '$app/navigation';
@@ -77,14 +77,14 @@
 	$: {
 		dates = [];
 
-		if (adventures) {
+		if (breweries) {
 			dates = dates.concat(
-				adventures.flatMap((adventure) =>
-					adventure.visits.map((visit) => ({
-						id: adventure.id,
+				breweries.flatMap((brewery) =>
+					brewery.visits.map((visit) => ({
+						id: brewery.id,
 						start: visit.start_date || '', // Ensure it's a string
 						end: visit.end_date || visit.start_date || '', // Ensure it's a string
-						title: adventure.name + (adventure.category?.icon ? ' ' + adventure.category.icon : '')
+						title: brewery.name + (brewery.category?.icon ? ' ' + brewery.category.icon : '')
 					}))
 				)
 			);
@@ -109,10 +109,10 @@
 
 	let currentView: string = 'itinerary';
 
-	let adventures: Adventure[] = [];
+	let breweries: Brewery[] = [];
 
 	let numVisited: number = 0;
-	let numAdventures: number = 0;
+	let numBreweries: number = 0;
 
 	let transportations: Transportation[] = [];
 	let notes: Note[] = [];
@@ -144,8 +144,8 @@
 	}
 
 	$: {
-		numAdventures = adventures.length;
-		numVisited = adventures.filter((adventure) => adventure.is_visited).length;
+		numBreweries = breweries.length;
+		numVisited = breweries.filter((brewery) => brewery.is_visited).length;
 	}
 
 	let notFound: boolean = false;
@@ -154,9 +154,9 @@
 	let isShowingChecklistModal: boolean = false;
 
 	onMount(() => {
-		if (data.props.adventure) {
-			collection = data.props.adventure;
-			adventures = collection.adventures as Adventure[];
+		if (data.props.brewery) {
+			collection = data.props.brewery;
+			breweries = collection.breweries as Brewery[];
 		} else {
 			notFound = true;
 		}
@@ -187,18 +187,18 @@
 		}
 	});
 
-	function deleteAdventure(event: CustomEvent<string>) {
-		adventures = adventures.filter((a) => a.id !== event.detail);
+	function deleteBrewery(event: CustomEvent<string>) {
+		breweries = breweries.filter((a) => a.id !== event.detail);
 	}
 
-	async function addAdventure(event: CustomEvent<Adventure>) {
+	async function addBrewery(event: CustomEvent<Brewery>) {
 		console.log(event.detail);
-		if (adventures.find((a) => a.id === event.detail.id)) {
+		if (breweries.find((a) => a.id === event.detail.id)) {
 			return;
 		} else {
-			let adventure = event.detail;
+			let brewery = event.detail;
 
-			let res = await fetch(`/api/adventures/${adventure.id}/`, {
+			let res = await fetch(`/api/breweries/${brewery.id}/`, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json'
@@ -207,17 +207,17 @@
 			});
 
 			if (res.ok) {
-				console.log('Adventure added to collection');
-				adventure = await res.json();
-				adventures = [...adventures, adventure];
+				console.log('Brewery added to collection');
+				brewery = await res.json();
+				breweries = [...breweries, brewery];
 			} else {
-				console.log('Error adding adventure to collection');
+				console.log('Error adding brewery to collection');
 			}
 		}
 	}
 
-	function recomendationToAdventure(recomendation: any) {
-		adventureToEdit = {
+	function recomendationToBrewery(recomendation: any) {
+		breweryToEdit = {
 			id: '',
 			user_id: null,
 			name: recomendation.name,
@@ -238,21 +238,21 @@
 			},
 			attachments: []
 		};
-		isAdventureModalOpen = true;
+		isBreweryModalOpen = true;
 	}
 
-	let adventureToEdit: Adventure | null = null;
+	let breweryToEdit: Brewery | null = null;
 	let transportationToEdit: Transportation | null = null;
-	let isAdventureModalOpen: boolean = false;
+	let isBreweryModalOpen: boolean = false;
 	let isNoteModalOpen: boolean = false;
 	let noteToEdit: Note | null;
 	let checklistToEdit: Checklist | null;
 
 	let newType: string;
 
-	function editAdventure(event: CustomEvent<Adventure>) {
-		adventureToEdit = event.detail;
-		isAdventureModalOpen = true;
+	function editBrewery(event: CustomEvent<Brewery>) {
+		breweryToEdit = event.detail;
+		isBreweryModalOpen = true;
 	}
 
 	function editTransportation(event: CustomEvent<Transportation>) {
@@ -260,18 +260,18 @@
 		isShowingTransportationModal = true;
 	}
 
-	function saveOrCreateAdventure(event: CustomEvent<Adventure>) {
-		if (adventures.find((adventure) => adventure.id === event.detail.id)) {
-			adventures = adventures.map((adventure) => {
-				if (adventure.id === event.detail.id) {
+	function saveOrCreateBrewery(event: CustomEvent<Brewery>) {
+		if (breweries.find((brewery) => brewery.id === event.detail.id)) {
+			breweries = breweries.map((brewery) => {
+				if (brewery.id === event.detail.id) {
 					return event.detail;
 				}
-				return adventure;
+				return brewery;
 			});
 		} else {
-			adventures = [event.detail, ...adventures];
+			breweries = [event.detail, ...breweries];
 		}
-		isAdventureModalOpen = false;
+		isBreweryModalOpen = false;
 	}
 
 	let isPopupOpen = false;
@@ -299,12 +299,12 @@
 		console.log(filteredRecomendations);
 		console.log(selectedRecomendationTag);
 	}
-	async function getRecomendations(adventure: Adventure) {
+	async function getRecomendations(brewery: Brewery) {
 		recomendationsData = null;
 		selectedRecomendationTag = '';
 		loadingRecomendations = true;
 		let res = await fetch(
-			`/api/overpass/query/?lat=${adventure.latitude}&lon=${adventure.longitude}&radius=${recomendationsRange}&category=${recomendationType}`
+			`/api/overpass/query/?lat=${brewery.latitude}&lon=${brewery.longitude}&radius=${recomendationsRange}&category=${recomendationType}`
 		);
 		if (!res.ok) {
 			console.log('Error fetching recommendations');
@@ -358,12 +358,12 @@
 </script>
 
 {#if isShowingLinkModal}
-	<AdventureLink
+	<BreweryLink
 		user={data?.user ?? null}
 		on:close={() => {
 			isShowingLinkModal = false;
 		}}
-		on:add={addAdventure}
+		on:add={addBrewery}
 	/>
 {/if}
 
@@ -376,11 +376,11 @@
 	/>
 {/if}
 
-{#if isAdventureModalOpen}
-	<AdventureModal
-		{adventureToEdit}
-		on:close={() => (isAdventureModalOpen = false)}
-		on:save={saveOrCreateAdventure}
+{#if isBreweryModalOpen}
+	<BreweryModal
+		{breweryToEdit}
+		on:close={() => (isBreweryModalOpen = false)}
+		on:save={saveOrCreateBrewery}
 		{collection}
 	/>
 {/if}
@@ -449,25 +449,25 @@
 						class="dropdown-content z-[1] menu p-4 shadow bg-base-300 text-base-content rounded-box w-52 gap-4"
 					>
 						{#if collection.user_id === data.user.uuid}
-							<p class="text-center font-bold text-lg">{$t('adventures.link_new')}</p>
+							<p class="text-center font-bold text-lg">{$t('breweries.link_new')}</p>
 							<button
 								class="btn btn-primary"
 								on:click={() => {
 									isShowingLinkModal = true;
 								}}
 							>
-								{$t('adventures.adventure')}</button
+								{$t('breweries.brewery')}</button
 							>
 						{/if}
-						<p class="text-center font-bold text-lg">{$t('adventures.add_new')}</p>
+						<p class="text-center font-bold text-lg">{$t('breweries.add_new')}</p>
 						<button
 							class="btn btn-primary"
 							on:click={() => {
-								isAdventureModalOpen = true;
-								adventureToEdit = null;
+								isBreweryModalOpen = true;
+								breweryToEdit = null;
 							}}
 						>
-							{$t('adventures.adventure')}</button
+							{$t('breweries.brewery')}</button
 						>
 
 						<button
@@ -479,7 +479,7 @@
 								newType = '';
 							}}
 						>
-							{$t('adventures.transportation')}</button
+							{$t('breweries.transportation')}</button
 						>
 						<button
 							class="btn btn-primary"
@@ -489,7 +489,7 @@
 								noteToEdit = null;
 							}}
 						>
-							{$t('adventures.note')}</button
+							{$t('breweries.note')}</button
 						>
 						<button
 							class="btn btn-primary"
@@ -499,7 +499,7 @@
 								checklistToEdit = null;
 							}}
 						>
-							{$t('adventures.checklist')}</button
+							{$t('breweries.checklist')}</button
 						>
 
 						<!-- <button
@@ -527,7 +527,7 @@
 						d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
 					/>
 				</svg>
-				<span>{$t('adventures.collection_archived')}</span>
+				<span>{$t('breweries.collection_archived')}</span>
 			</div>
 		</div>
 	{/if}
@@ -537,12 +537,12 @@
 	{#if collection.link}
 		<div class="flex items-center justify-center mb-2">
 			<a href={collection.link} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-				{$t('adventures.visit_link')}
+				{$t('breweries.visit_link')}
 			</a>
 		</div>
 	{/if}
 
-	{#if collection && !collection.start_date && adventures.length == 0 && transportations.length == 0 && notes.length == 0 && checklists.length == 0}
+	{#if collection && !collection.start_date && breweries.length == 0 && transportations.length == 0 && notes.length == 0 && checklists.length == 0}
 		<NotFound error={undefined} />
 	{/if}
 
@@ -557,16 +557,16 @@
 		</div>
 	{/if}
 
-	{#if adventures.length > 0}
+	{#if breweries.length > 0}
 		<div class="flex items-center justify-center mb-4">
 			<div class="stats shadow bg-base-300">
 				<div class="stat">
-					<div class="stat-title">{$t('adventures.collection_stats')}</div>
-					<div class="stat-value">{numVisited}/{numAdventures} Visited</div>
-					{#if numAdventures === numVisited}
-						<div class="stat-desc">{$t('adventures.collection_completed')}</div>
+					<div class="stat-title">{$t('breweries.collection_stats')}</div>
+					<div class="stat-value">{numVisited}/{numBreweries} Visited</div>
+					{#if numBreweries === numVisited}
+						<div class="stat-desc">{$t('breweries.collection_completed')}</div>
 					{:else}
-						<div class="stat-desc">{$t('adventures.keep_exploring')}</div>
+						<div class="stat-desc">{$t('breweries.keep_exploring')}</div>
 					{/if}
 				</div>
 			</div>
@@ -621,16 +621,16 @@
 	{/if}
 
 	{#if currentView == 'all'}
-		{#if adventures.length > 0}
-			<h1 class="text-center font-bold text-4xl mt-4 mb-2">{$t('adventures.linked_adventures')}</h1>
+		{#if breweries.length > 0}
+			<h1 class="text-center font-bold text-4xl mt-4 mb-2">{$t('breweries.linked_breweries')}</h1>
 
 			<div class="flex flex-wrap gap-4 mr-4 justify-center content-center">
-				{#each adventures as adventure}
-					<AdventureCard
+				{#each breweries as brewery}
+					<BreweryCard
 						user={data.user}
-						on:edit={editAdventure}
-						on:delete={deleteAdventure}
-						{adventure}
+						on:edit={editBrewery}
+						on:delete={deleteBrewery}
+						{brewery}
 						{collection}
 					/>
 				{/each}
@@ -638,7 +638,7 @@
 		{/if}
 
 		{#if transportations.length > 0}
-			<h1 class="text-center font-bold text-4xl mt-4 mb-4">{$t('adventures.transportations')}</h1>
+			<h1 class="text-center font-bold text-4xl mt-4 mb-4">{$t('breweries.transportations')}</h1>
 			<div class="flex flex-wrap gap-4 mr-4 justify-center content-center">
 				{#each transportations as transportation}
 					<TransportationCard
@@ -655,7 +655,7 @@
 		{/if}
 
 		{#if notes.length > 0}
-			<h1 class="text-center font-bold text-4xl mt-4 mb-4">{$t('adventures.notes')}</h1>
+			<h1 class="text-center font-bold text-4xl mt-4 mb-4">{$t('breweries.notes')}</h1>
 			<div class="flex flex-wrap gap-4 mr-4 justify-center content-center">
 				{#each notes as note}
 					<NoteCard
@@ -675,7 +675,7 @@
 		{/if}
 
 		{#if checklists.length > 0}
-			<h1 class="text-center font-bold text-4xl mt-4 mb-4">{$t('adventures.checklists')}</h1>
+			<h1 class="text-center font-bold text-4xl mt-4 mb-4">{$t('breweries.checklists')}</h1>
 			<div class="flex flex-wrap gap-4 mr-4 justify-center content-center">
 				{#each checklists as checklist}
 					<ChecklistCard
@@ -695,7 +695,7 @@
 		{/if}
 
 		<!-- if none found -->
-		{#if adventures.length == 0 && transportations.length == 0 && notes.length == 0 && checklists.length == 0}
+		{#if breweries.length == 0 && transportations.length == 0 && notes.length == 0 && checklists.length == 0}
 			<NotFound error={undefined} />
 		{/if}
 	{/if}
@@ -705,11 +705,11 @@
 			<div class="hero bg-base-200 py-8 mt-8">
 				<div class="hero-content text-center">
 					<div class="max-w-md">
-						<h1 class="text-5xl font-bold mb-4">{$t('adventures.itineary_by_date')}</h1>
+						<h1 class="text-5xl font-bold mb-4">{$t('breweries.itineary_by_date')}</h1>
 						{#if numberOfDays}
 							<p class="text-lg mb-2">
-								{$t('adventures.duration')}:
-								<span class="badge badge-primary">{numberOfDays} {$t('adventures.days')}</span>
+								{$t('breweries.duration')}:
+								<span class="badge badge-primary">{numberOfDays} {$t('breweries.days')}</span>
 							</p>
 						{/if}
 						<p class="text-lg">
@@ -733,8 +733,8 @@
 					{@const adjustedDate = new Date(tempDate.setUTCDate(tempDate.getUTCDate() + i))}
 					{@const dateString = adjustedDate.toISOString().split('T')[0]}
 
-					{@const dayAdventures =
-						groupAdventuresByDate(adventures, new Date(collection.start_date), numberOfDays)[
+					{@const dayBreweries =
+						groupBreweriesByDate(breweries, new Date(collection.start_date), numberOfDays)[
 							dateString
 						] || []}
 					{@const dayTransportations =
@@ -754,7 +754,7 @@
 					<div class="card bg-base-100 shadow-xl my-8">
 						<div class="card-body bg-base-200">
 							<h2 class="card-title text-3xl justify-center g">
-								{$t('adventures.day')}
+								{$t('breweries.day')}
 								{i + 1}
 								<div class="badge badge-lg">
 									{adjustedDate.toLocaleDateString(undefined, { timeZone: 'UTC' })}
@@ -764,13 +764,13 @@
 							<div class="divider"></div>
 
 							<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-								{#if dayAdventures.length > 0}
-									{#each dayAdventures as adventure}
-										<AdventureCard
+								{#if dayBreweries.length > 0}
+									{#each dayBreweries as brewery}
+										<BreweryCard
 											user={data.user}
-											on:edit={editAdventure}
-											on:delete={deleteAdventure}
-											{adventure}
+											on:edit={editBrewery}
+											on:delete={deleteBrewery}
+											{brewery}
 										/>
 									{/each}
 								{/if}
@@ -821,8 +821,8 @@
 								{/if}
 							</div>
 
-							{#if dayAdventures.length == 0 && dayTransportations.length == 0 && dayNotes.length == 0 && dayChecklists.length == 0}
-								<p class="text-center text-lg mt-2 italic">{$t('adventures.nothing_planned')}</p>
+							{#if dayBreweries.length == 0 && dayTransportations.length == 0 && dayNotes.length == 0 && dayChecklists.length == 0}
+								<p class="text-center text-lg mt-2 italic">{$t('breweries.nothing_planned')}</p>
 							{/if}
 						</div>
 					</div>
@@ -840,33 +840,33 @@
 					class="aspect-[9/16] max-h-[70vh] sm:aspect-video sm:max-h-full w-full rounded-lg"
 					standardControls
 				>
-					{#each adventures as adventure}
-						{#if adventure.longitude && adventure.latitude}
+					{#each breweries as brewery}
+						{#if brewery.longitude && brewery.latitude}
 							<Marker
-								lngLat={[adventure.longitude, adventure.latitude]}
-								class="grid h-8 w-8 place-items-center rounded-full border border-gray-200 {adventure.is_visited
+								lngLat={[brewery.longitude, brewery.latitude]}
+								class="grid h-8 w-8 place-items-center rounded-full border border-gray-200 {brewery.is_visited
 									? 'bg-red-300'
 									: 'bg-blue-300'} text-black focus:outline-6 focus:outline-black"
 								on:click={togglePopup}
 							>
 								<span class="text-xl">
-									{adventure.category?.icon}
+									{brewery.category?.icon}
 								</span>
 								{#if isPopupOpen}
 									<Popup openOn="click" offset={[0, -10]} on:close={() => (isPopupOpen = false)}>
-										{#if adventure.images && adventure.images.length > 0}
-											<CardCarousel adventures={[adventure]} />
+										{#if brewery.images && brewery.images.length > 0}
+											<CardCarousel breweries={[brewery]} />
 										{/if}
-										<div class="text-lg text-black font-bold">{adventure.name}</div>
+										<div class="text-lg text-black font-bold">{brewery.name}</div>
 										<p class="font-semibold text-black text-md">
-											{adventure.is_visited ? $t('adventures.visited') : $t('adventures.planned')}
+											{brewery.is_visited ? $t('breweries.visited') : $t('breweries.planned')}
 										</p>
 										<p class="font-semibold text-black text-md">
-											{adventure.category?.display_name + ' ' + adventure.category?.icon}
+											{brewery.category?.display_name + ' ' + brewery.category?.icon}
 										</p>
-										{#if adventure.visits && adventure.visits.length > 0}
+										{#if brewery.visits && brewery.visits.length > 0}
 											<p class="text-black text-sm">
-												{#each adventure.visits as visit}
+												{#each brewery.visits as visit}
 													{visit.start_date
 														? new Date(visit.start_date).toLocaleDateString(undefined, {
 																timeZone: 'UTC'
@@ -886,7 +886,7 @@
 										{/if}
 										<button
 											class="btn btn-neutral btn-wide btn-sm mt-4"
-											on:click={() => goto(`/adventures/${adventure.id}`)}
+											on:click={() => goto(`/breweries/${brewery.id}`)}
 											>{$t('map.view_details')}</button
 										>
 									</Popup>
@@ -944,7 +944,7 @@
 		<div class="card bg-base-200 shadow-xl my-8 mx-auto w-10/12">
 			<div class="card-body">
 				<h2 class="card-title text-3xl justify-center mb-4">
-					{$t('adventures.adventure_calendar')}
+					{$t('breweries.brewery_calendar')}
 				</h2>
 				<Calendar {plugins} {options} />
 			</div>
@@ -953,17 +953,17 @@
 	{#if currentView == 'recommendations'}
 		<div class="card bg-base-200 shadow-xl my-8 mx-auto w-10/12">
 			<div class="card-body">
-				<h2 class="card-title text-3xl justify-center mb-4">Adventure Recommendations</h2>
-				{#each adventures as adventure}
-					{#if adventure.longitude && adventure.latitude}
-						<button on:click={() => getRecomendations(adventure)} class="btn btn-neutral"
-							>{adventure.name}</button
+				<h2 class="card-title text-3xl justify-center mb-4">Brewery Recommendations</h2>
+				{#each breweries as brewery}
+					{#if brewery.longitude && brewery.latitude}
+						<button on:click={() => getRecomendations(brewery)} class="btn btn-neutral"
+							>{brewery.name}</button
 						>
 					{/if}
 				{/each}
-				{#if adventures.length == 0}
+				{#if breweries.length == 0}
 					<div class="alert alert-info">
-						<p class="text-center text-lg">{$t('adventures.no_adventures_to_recommendations')}</p>
+						<p class="text-center text-lg">{$t('breweries.no_breweries_to_recommendations')}</p>
 					</div>
 				{/if}
 				<div class="mt-4">
@@ -1059,8 +1059,8 @@
 											>
 											<button
 												class="btn btn-neutral btn-wide btn-sm mt-4"
-												on:click={() => recomendationToAdventure(recomendation)}
-												>{$t('adventures.create_adventure')}</button
+												on:click={() => recomendationToBrewery(recomendation)}
+												>{$t('breweries.create_brewery')}</button
 											>
 										</Popup>
 									{/if}
@@ -1106,9 +1106,9 @@
 									{/if}
 									<button
 										class="btn btn-primary"
-										on:click={() => recomendationToAdventure(recomendation)}
+										on:click={() => recomendationToBrewery(recomendation)}
 									>
-										{$t('adventures.create_adventure')}
+										{$t('breweries.create_brewery')}
 									</button>
 								</div>
 							</div>
@@ -1122,7 +1122,7 @@
 								<span class="loading loading-ring loading-lg"></span>
 								<div class="mt-2">
 									<p class="text-center text-lg">
-										{$t('adventures.finding_recommendations')}...
+										{$t('breweries.finding_recommendations')}...
 									</p>
 								</div>
 							</div>
@@ -1136,14 +1136,14 @@
 
 <svelte:head>
 	<title
-		>{data.props.adventure && data.props.adventure.name
-			? `${data.props.adventure.name}`
-			: $t('adventures.collection')}</title
+		>{data.props.brewery && data.props.brewery.name
+			? `${data.props.brewery.name}`
+			: $t('breweries.collection')}</title
 	>
 	<meta
 		name="description"
-		content="Learn more about {data.props.adventure && data.props.adventure.name
-			? `${data.props.adventure.name}.`
-			: 'your adventures.'}"
+		content="Learn more about {data.props.brewery && data.props.brewery.name
+			? `${data.props.brewery.name}.`
+			: 'your breweries.'}"
 	/>
 </svelte:head>

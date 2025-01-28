@@ -15,7 +15,7 @@
 			method: 'DELETE'
 		});
 		if (res.ok) {
-			addToast('info', $t('adventures.attachment_delete_success'));
+			addToast('info', $t('breweries.attachment_delete_success'));
 			dispatch('delete', attachment.id);
 		} else {
 			console.log('Error deleting attachment');
@@ -59,7 +59,7 @@
 	<div
 		class="absolute top-0 right-0 bg-primary text-white px-3 py-1 text-sm font-medium rounded-bl-lg shadow-md"
 	>
-		{$t('adventures.attachment')}
+		{$t('breweries.attachment')}
 	</div>
 	<div
 		class="absolute top-0 left-0 bg-secondary text-white px-2 py-1 text-sm font-medium rounded-br-lg shadow-md"
@@ -93,7 +93,7 @@
 					{$t('transportation.edit')}
 				</button>
 				<button class="btn btn-sm btn-danger btn-outline" type="button" on:click={deleteAttachment}>
-					{$t('adventures.delete')}
+					{$t('breweries.delete')}
 				</button>
 			{/if}
 		</div>

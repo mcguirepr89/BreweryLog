@@ -17,6 +17,7 @@ done
 # psql -h "$PGHOST" -U "$PGUSER" -d "$PGDATABASE" -f /app/backend/init-postgis.sql
 
 # Apply Django migrations
+python manage.py makemigrations
 python manage.py migrate
 
 # Create superuser if environment variables are set and there are no users present at all.
@@ -60,7 +61,7 @@ if [ $? -eq 137 ]; then
   exit 1
 fi
 
-cat /code/adventurelog.txt
+cat /code/brewerylog.txt
 
 # Start gunicorn
 gunicorn main.wsgi:application --bind [::]:8000 --timeout 120 --workers 2
