@@ -68,6 +68,17 @@
 					Sean Morley
 				</a>
 			</p>
+			<p class="text-sm text-gray-600 dark:text-gray-400">
+				© 2025
+				<a
+					href="https://pmcgui.xyz"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="text-primary hover:underline"
+				>
+					BreweryLog modifications by Patrick McGuire
+				</a>
+			</p>
 			<p class="text-sm text-gray-600 dark:text-gray-400">{$t('about.license')}</p>
 			<p class="text-sm text-gray-600 dark:text-gray-400">
 				<a
